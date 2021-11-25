@@ -1,12 +1,13 @@
 package be.uantwerpen.fti.Database;
 
 public abstract class Database {
-    public Database()
-    {
+    public Database() {
     }
 
     public abstract void addEntry();
+
     public abstract void removeEntry();
+
     // To Do add observer
     //public abstract void addObserver(Observer o);
     public abstract void clearObservers();
