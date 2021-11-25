@@ -3,7 +3,7 @@ package be.uantwerpen.fti;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world en niels");
+        System.out.println("Hello world en thijs");
 
     }
 }
