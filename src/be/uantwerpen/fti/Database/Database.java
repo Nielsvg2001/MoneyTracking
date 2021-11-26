@@ -4,13 +4,12 @@ public abstract class Database {
     public Database() {
     }
 
-    public abstract void addEntry();
-
-    public abstract void removeEntry();
+    public void addEntry(){}
+    public void removeEntry(){}
 
     // To Do add observer
     //public abstract void addObserver(Observer o);
-    public abstract void clearObservers();
+    public void clearObservers(){}
     // https://www.java67.com/2013/02/10-examples-of-hashmap-in-java-programming-tutorial.html
 
 }
