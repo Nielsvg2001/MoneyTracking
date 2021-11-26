@@ -7,7 +7,7 @@ import java.io.IOException;
 public class TaxiTicket extends Ticket {
     public TaxiTicket(String name) {
         super(name);
-        this.setType(TicketType.Taxi);
+        this.setTicketType(TicketType.Taxi);
         try {
             this.setImage(ImageIO.read(new File("src/be/uantwerpen/fti/Assets/taxi.png")));
         } catch (IOException | IllegalArgumentException ex) {
