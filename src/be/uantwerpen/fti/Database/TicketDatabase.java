@@ -24,13 +24,13 @@ public class TicketDatabase extends Database {
 
     public void addEntry(Ticket ticket) {
         this.ticketDatabase.put(ticket.getUuid(), ticket);
-        this.pcs.firePropertyChange("new ticket", 0, ticket);
+        this.support.firePropertyChange("new ticket", 0, ticket);
     }
 
 
     public void removeEntry(Ticket ticket) {
         this.ticketDatabase.remove(ticket.getUuid());
-        this.pcs.firePropertyChange("ticket removed", 0, ticket);
+        this.support.firePropertyChange("ticket removed", 0, ticket);
     }
 
     public ArrayList<Ticket> ticketList() {
