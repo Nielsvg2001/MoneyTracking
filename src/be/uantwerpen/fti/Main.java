@@ -4,6 +4,7 @@ import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
+import be.uantwerpen.fti.observers.PersonDatabaseObserver;
 
 import java.util.Iterator;
 
@@ -57,6 +58,8 @@ public class Main {
 
         // test persondatabase
         PersonDatabase pdb = PersonDatabase.getInstance();
+        PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
+        pdb.addObserver(pdbO);
         pdb.addEntry(p1);
         pdb.allelements();
         pdb.addEntry(p2);

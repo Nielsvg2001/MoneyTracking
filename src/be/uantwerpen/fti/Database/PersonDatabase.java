@@ -2,6 +2,7 @@ package be.uantwerpen.fti.Database;
 
 import be.uantwerpen.fti.Person;
 
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
@@ -10,6 +11,7 @@ public class PersonDatabase extends Database{
 
     private final HashMap<UUID, Person> db;
     private static PersonDatabase single_instance = null;
+
 
     private PersonDatabase() {
         this.db = new HashMap<>();
@@ -27,7 +29,7 @@ public class PersonDatabase extends Database{
 
     public void addEntry(Person p) {
         this.db.put(p.getId(),p);
-        //support.firePropertyChange("RegristrationDB add",e,re);
+        support.firePropertyChange("added",p,p.getId());
     }
 
     public void getEntry(Person p) {
@@ -40,12 +42,12 @@ public class PersonDatabase extends Database{
 
     public void removeEntry(Person p) {
         db.remove(p.getId());
-        //support.firePropertyChange("RegristrationDB add",e,re);
+        support.firePropertyChange("remove",p,p.getId());
     }
 
     public void removeEntry(UUID id) {
         db.remove(id);
-        //support.firePropertyChange("RegristrationDB add",e,re);
+        support.firePropertyChange("remove",id,"niks");
     }
 
     public void allelements(){
