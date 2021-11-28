@@ -3,9 +3,11 @@ package be.uantwerpen.fti.Ticket;
 // https://stackoverflow.com/questions/9083096/drawing-an-image-to-a-jpanel-within-a-jframe
 
 import java.awt.*;
+import java.util.UUID;
 
 public abstract class Ticket {
 
+    private final UUID uuid = UUID.randomUUID();
     private String name;
     private TicketType ticketType;
     private Image image;
@@ -22,13 +24,14 @@ public abstract class Ticket {
         this.name = name;
     }
 
-    public TicketType getType() {
+    public TicketType getTicketType() {
         return ticketType;
     }
 
-    public void setType(TicketType ticketType) {
+    public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
     }
+
 
     public Image getImage() {
         return image;
@@ -36,6 +39,10 @@ public abstract class Ticket {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
 }
