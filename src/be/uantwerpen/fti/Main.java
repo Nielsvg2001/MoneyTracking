@@ -1,13 +1,18 @@
 package be.uantwerpen.fti;
 
+import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
+import be.uantwerpen.fti.Database.Database;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
+import be.uantwerpen.fti.Ticket.ConcertTicket;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
 import be.uantwerpen.fti.observers.PersonDatabaseObserver;
 import be.uantwerpen.fti.observers.TicketDatabaseObserver;
+
+import java.util.UUID;
 
 public class Main {
 
@@ -79,6 +84,24 @@ public class Main {
         pdb.allelements();
         pdb.removeEntry(p2);
         pdb.allelements();
+        pdb.addEntry(p2);
+
+        // test debt Person
+        p1.addDept(p2,50);
+        System.out.println("debt p1: " +  p1.getDebtlist());
+        p1.addDept(p2,50);
+        System.out.println("debt p1: " +  p1.getDebtlist());
+        p1.addDept(p3,50);
+        System.out.println("debt p1: " +  p1.getDebtlist());
+        p1.addDept(p3.getId(),-50);
+
+        System.out.println("debt p1: " +  p1.getDebtlist());
+        p1.addDept(p2.getId(),-500);
+        System.out.println("debt p1: " +  p1.getDebtlist());
+
+
+
+
 
         /* TO DO:
             -single  database person -> singleton

@@ -32,12 +32,13 @@ public class PersonDatabase extends Database{
         support.firePropertyChange("added",p,p.getId());
     }
 
-    public void getEntry(Person p) {
-        this.db.get(p.getId());
+    public Person getEntry(Person p) {
+
+        return this.db.get(p.getId());
     }
 
-    public void getEntry(UUID id) {
-        this.db.get(id);
+    public Person getEntry(UUID id) {
+        return db.get(id);
     }
 
     public void removeEntry(Person p) {

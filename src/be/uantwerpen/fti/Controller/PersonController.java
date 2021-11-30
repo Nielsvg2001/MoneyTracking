@@ -3,6 +3,8 @@ package be.uantwerpen.fti.Controller;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
 
+import java.util.UUID;
+
 public class PersonController {
     private PersonDatabase db;
     private static PersonController single_instance = null;
@@ -28,5 +30,10 @@ public class PersonController {
     public void removePerson(Person p)
     {
         db.removeEntry(p);
+    }
+
+    public Person getPerson(UUID id)
+    {
+        return db.getEntry(id);
     }
 }
