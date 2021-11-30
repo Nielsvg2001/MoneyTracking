@@ -35,18 +35,13 @@ public class Main {
 
         /*
         System.out.println("Test database volledig");
-
-        for (Ticket iter : ticketController.ticketList()) {
-            System.out.println(iter.getTicketType() + ": " + iter.getName());
-        }
+        System.out.println(ticketController.ticketList());
 
         ticketController.removeTicket(ticket3);
         System.out.println();
 
         System.out.println("Test database na enkele verwijderingen");
-        for (Ticket iter : ticketController.ticketList()) {
-            System.out.println(iter.getTicketType() + ": " + iter.getName());
-        }
+        System.out.println(ticketController.ticketList());
         */
 
         System.out.println();

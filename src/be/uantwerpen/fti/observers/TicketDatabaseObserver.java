@@ -12,6 +12,6 @@ public class TicketDatabaseObserver implements Observer{
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Ticket ticket = (Ticket) evt.getNewValue();
-        System.out.println(evt.getPropertyName() + " " + ticket.getName());
+        System.out.println(evt.getPropertyName() + " -> " + ticket);
     }
 }

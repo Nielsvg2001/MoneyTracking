@@ -45,4 +45,9 @@ public abstract class Ticket {
         return uuid;
     }
 
+    @Override
+    public String toString(){
+        return this.getTicketType() + ": " + this.getName();
+    }
+
 }
