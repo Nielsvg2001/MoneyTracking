@@ -32,7 +32,6 @@ public abstract class Ticket {
         this.ticketType = ticketType;
     }
 
-
     public Image getImage() {
         return image;
     }
@@ -45,4 +44,8 @@ public abstract class Ticket {
         return uuid;
     }
 
+    @Override
+    public String toString(){
+        return this.getTicketType() + ": " + this.getName();
+    }
 }
