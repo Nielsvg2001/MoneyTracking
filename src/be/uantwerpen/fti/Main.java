@@ -1,100 +1,55 @@
 package be.uantwerpen.fti;
 
+import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
-import be.uantwerpen.fti.observers.PersonDatabaseObserver;
-import be.uantwerpen.fti.observers.TicketDatabaseObserver;
+
+import java.util.HashMap;
 
 public class Main {
 
     public static void main(String[] args) {
-        // Ticket factory test
 
+        // Init
         TicketFactory ticketFactory = new TicketFactory();
-        Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
-        Ticket ticket2 = ticketFactory.getTicket(TicketType.Airplane, "Vlucht naar kreta");
-        Ticket ticket3 = ticketFactory.getTicket(TicketType.Taxi, "Taxi naar hotel");
-        Ticket ticket4 = ticketFactory.getTicket(TicketType.Concert, "Conecert RHP");
-
-        // Test ticketdatabase
         TicketDatabase ticketDatabase = TicketDatabase.getInstance();
+        PersonDatabase personDatabase = PersonDatabase.getInstance();
         TicketController ticketController = TicketController.getInstance(ticketDatabase);
-        TicketDatabaseObserver ticketDatabaseObserver = new TicketDatabaseObserver();
-        ticketDatabase.addObserver(ticketDatabaseObserver);
+        PersonController personController = PersonController.getInstance(personDatabase);
 
+        Person niels = new Person("Niels","niels@uantwerpen.be", "0453503949");
+        Person thijs = new Person("Thijs","thijs@uantwerpen.be", "0487529926");
+        Person maxim = new Person("Maxim", "maxim@uantwerpen.be", "0485930030");
+
+        personController.addPerson(niels);
+        personController.addPerson(thijs);
+        personController.addPerson(maxim);
+
+        Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
         ticketController.addTicket(ticket);
+        ticket.setPayer(niels);
+        ticket.setPaid_amount(100.0);
+        ticket.addOws(thijs, 30.0);
+        ticket.addOws(maxim, 40.0);
+
+        Ticket ticket2 = ticketFactory.getTicket(TicketType.Airplane, "Vlucht Kreta");
         ticketController.addTicket(ticket2);
-        ticketController.addTicket(ticket3);
-        ticketController.addTicket(ticket4);
+        ticket2.setPayer(thijs);
+        ticket2.setPaid_amount(60.0);
+        ticket2.addOws(niels);
+        ticket2.addOws(maxim);
 
-        ticketController.removeTicket(ticket3);
-
-        /*
-        System.out.println("Test database volledig");
         System.out.println(ticketController.ticketList());
 
-        ticketController.removeTicket(ticket3);
-        System.out.println();
+        System.out.println("\nNiels totaal: \n");
+        HashMap<Person, Double> debts = niels.calculate();
+        for(Person person: debts.keySet()){
+            System.out.println(person.getName() + " totaal verschuldigd " + debts.get(person));
+        }
 
-        System.out.println("Test database na enkele verwijderingen");
-        System.out.println(ticketController.ticketList());
-        */
-
-        System.out.println();
-
-        //test Person
-        Person p1 = new Person("jos");
-        Person p2 = new Person("jos","jos@ua.com","01236");
-        Person p3 = new Person("jos");
-        System.out.println(p1.getName());
-        System.out.println(p2.getName());
-        System.out.println(p2.getGSMNummer());
-        System.out.println(p2.getMail());
-        p2.setMail("testmail");
-        System.out.println(p2.getMail());
-        System.out.println(p1.getMail());
-        p1.setMail("p1mail");
-        System.out.println(p1.getMail());
-        System.out.println(p1.getGSMNummer());
-
-        System.out.println(p1.getId());
-        System.out.println(p2.getId());
-        System.out.println(p3.getId());
-
-        // test persondatabase
-        PersonDatabase pdb = PersonDatabase.getInstance();
-        PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
-        pdb.addObserver(pdbO);
-        pdb.addEntry(p1);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p3);
-        pdb.allelements();
-        pdb.removeEntry(p2);
-        pdb.allelements();
-
-        /* TO DO:
-            -single  database person -> singleton
-            - singel database tickets -> singleton
-            - 2 controllers for database
-            - factory to create tickets?
-            - observer to observe databases
-            - nog design patern niet gezien in practicum
-            - GUI
-
-            - unit test
-            - integration test
-
-
-        gitkraken
-                sourcetree
-*/
     }
 }
