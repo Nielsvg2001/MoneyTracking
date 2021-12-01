@@ -17,107 +17,94 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
-        // Ticket factory test
+        System.out.println("Test Ticket database");
 
+
+        // Init
         TicketFactory ticketFactory = new TicketFactory();
-        Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
-        Ticket ticket2 = ticketFactory.getTicket(TicketType.Airplane, "Vlucht naar kreta");
-        Ticket ticket3 = ticketFactory.getTicket(TicketType.Taxi, "Taxi naar hotel");
-        Ticket ticket4 = ticketFactory.getTicket(TicketType.Concert, "Conecert RHP");
-
-        // Test ticketdatabase
         TicketDatabase ticketDatabase = TicketDatabase.getInstance();
+        PersonDatabase personDatabase = PersonDatabase.getInstance();
         TicketController ticketController = TicketController.getInstance(ticketDatabase);
+        PersonController personController = PersonController.getInstance(personDatabase);
         TicketDatabaseObserver ticketDatabaseObserver = new TicketDatabaseObserver();
+        PersonDatabaseObserver personDatabaseObserver = new PersonDatabaseObserver();
+
         ticketDatabase.addObserver(ticketDatabaseObserver);
+        personDatabase.addObserver(personDatabaseObserver);
 
+        Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
+        Person niels = new Person("Niels","niels@uantwerpen.be", "0453503949");
+        Person thijs = new Person("Thijs","thijs@uantwerpen.be", "0487529926");
+        Person maxim = new Person("Maxim", "maxim@uantwerpen.be", "0485930030");
+
+        personController.addPerson(niels);
+        personController.addPerson(thijs);
+        personController.addPerson(maxim);
+
+        // Start ticket
         ticketController.addTicket(ticket);
+        ticket.setPayer(niels);
+        ticket.setPaid_amount(70.0);
+        ticket.addOws(thijs,30.0);
+        ticket.addOws(maxim, 35.0);
+
+        System.out.println(ticket);
+
+        ticketController.split(ticket);
+
+        System.out.println();
+        System.out.println();
+        System.out.println(niels.getName());
+        for(Person person: niels.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + niels.getDebtlist().get(person));
+        }
+
+        System.out.println();
+        System.out.println();
+        System.out.println(thijs.getName());
+        for(Person person: thijs.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + thijs.getDebtlist().get(person));
+        }
+
+        System.out.println();
+        System.out.println();
+        System.out.println(maxim.getName());
+        for(Person person: maxim.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + maxim.getDebtlist().get(person));
+        }
+
+
+        System.out.println();
+        System.out.println();
+        Ticket ticket2 = ticketFactory.getTicket(TicketType.Taxi, "Taxi naar station");
         ticketController.addTicket(ticket2);
-        ticketController.addTicket(ticket3);
-        ticketController.addTicket(ticket4);
+        ticket2.setPayer(thijs);
+        ticket2.setPaid_amount(100.0);
+        ticket2.addOws(niels,20.0);
+        ticket2.addOws(maxim, 40.0);
+        ticketController.split(ticket2);
 
-        ticketController.removeTicket(ticket3);
-
-        /*
-        System.out.println("Test database volledig");
-        System.out.println(ticketController.ticketList());
-
-        ticketController.removeTicket(ticket3);
-        System.out.println();
-
-        System.out.println("Test database na enkele verwijderingen");
-        System.out.println(ticketController.ticketList());
-        */
+        System.out.println(ticket2);
 
         System.out.println();
+        System.out.println();
+        System.out.println(niels.getName());
+        for(Person person: niels.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + niels.getDebtlist().get(person));
+        }
 
-        //test Person
-        Person p1 = new Person("jos");
-        Person p2 = new Person("jos","jos@ua.com","01236");
-        Person p3 = new Person("jos");
-        System.out.println(p1.getName());
-        System.out.println(p2.getName());
-        System.out.println(p2.getGSMNummer());
-        System.out.println(p2.getMail());
-        p2.setMail("testmail");
-        System.out.println(p2.getMail());
-        System.out.println(p1.getMail());
-        p1.setMail("p1mail");
-        System.out.println(p1.getMail());
-        System.out.println(p1.getGSMNummer());
+        System.out.println();
+        System.out.println();
+        System.out.println(thijs.getName());
+        for(Person person: thijs.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + thijs.getDebtlist().get(person));
+        }
 
-        System.out.println(p1.getId());
-        System.out.println(p2.getId());
-        System.out.println(p3.getId());
-
-        // test persondatabase
-        PersonDatabase pdb = PersonDatabase.getInstance();
-        PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
-        pdb.addObserver(pdbO);
-        pdb.addEntry(p1);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p3);
-        pdb.allelements();
-        pdb.removeEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
-
-        // test debt Person
-        p1.addDept(p2,50);
-        System.out.println("debt p1: " +  p1.getDebtlist());
-        p1.addDept(p2,50);
-        System.out.println("debt p1: " +  p1.getDebtlist());
-        p1.addDept(p3,50);
-        System.out.println("debt p1: " +  p1.getDebtlist());
-        p1.addDept(p3.getId(),-50);
-
-        System.out.println("debt p1: " +  p1.getDebtlist());
-        p1.addDept(p2.getId(),-500);
-        System.out.println("debt p1: " +  p1.getDebtlist());
-
-
-
-
-
-        /* TO DO:
-            -single  database person -> singleton
-            - singel database tickets -> singleton
-            - 2 controllers for database
-            - factory to create tickets?
-            - observer to observe databases
-            - nog design patern niet gezien in practicum
-            - GUI
-
-            - unit test
-            - integration test
-
-
-        gitkraken
-                sourcetree
-*/
+        System.out.println();
+        System.out.println();
+        System.out.println(maxim.getName());
+        for(Person person: maxim.getDebtlist().keySet()){
+            System.out.println(person.getName() + " bedrag: " + maxim.getDebtlist().get(person));
+        }
     }
 }

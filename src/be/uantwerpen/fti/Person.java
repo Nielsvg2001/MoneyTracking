@@ -12,7 +12,7 @@ public class Person {
     private String mail;
     private String GSMNummer;
     private final UUID id;
-    private Map<Person, Double> debtlist;
+    private HashMap<Person, Double> debtlist;
 
     public Person(String name) {
         this.name = name;
@@ -58,7 +58,7 @@ public class Person {
         return id;
     }
 
-    public Map<Person, Double> getDebtlist() {
+    public HashMap<Person, Double> getDebtlist() {
         return debtlist;
     }
 
