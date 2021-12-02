@@ -1,16 +1,12 @@
 package be.uantwerpen.fti;
 
-import be.uantwerpen.fti.Database.TicketDatabase;
-import be.uantwerpen.fti.Ticket.Ticket;
-
-import java.util.HashMap;
 import java.util.UUID;
 
 public class Person {
+    private final UUID id;
     private String name;
     private String mail;
     private String GSMNummer;
-    private final UUID id;
 
     public Person(String name) {
         this.name = name;

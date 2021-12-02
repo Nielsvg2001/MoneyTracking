@@ -2,9 +2,6 @@ package be.uantwerpen.fti.Ticket;
 
 // https://stackoverflow.com/questions/9083096/drawing-an-image-to-a-jpanel-within-a-jframe
 
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Person;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.UUID;
@@ -12,12 +9,12 @@ import java.util.UUID;
 public abstract class Ticket {
 
     private final UUID uuid = UUID.randomUUID();
+    private final HashMap<UUID, Double> ows = new HashMap<>();
     private String name;
     private TicketType ticketType;
     private Image image;
     private UUID payerid;
     private Double paid_amount;
-    private final HashMap<UUID, Double> ows = new HashMap<>();
 
     public Ticket(String name) {
         this.name = name;
@@ -80,19 +77,14 @@ public abstract class Ticket {
         return ows;
     }
 
+    public void splitEqual() {
+        for (UUID personuuid : this.getOws().keySet())
+            if (this.getOws().get(personuuid) == null)
+                this.getOws().put(personuuid, this.getPaid_amount() / (this.getOws().size() + 1));
+    }
+
     @Override
     public String toString() {
-        if (this.payerid == null | this.paid_amount == null)
-            return this.getTicketType() + ": " + this.getName();
-        else {
-            Person payer = PersonDatabase.getInstance().getEntry(this.payerid);
-            StringBuilder string = new StringBuilder(this.getTicketType() + ": " + this.getName() + "\n");
-            string.append(payer.getName()).append(" betaalde: ").append(this.paid_amount);
-            for (UUID personid : this.ows.keySet()) {
-                Person person = PersonDatabase.getInstance().getEntry(personid);
-                string.append("\n").append(person.getName()).append(" verschuldigd: ").append(this.ows.get(personid));
-            }
-            return "" + string;
-        }
+        return this.ticketType + " ->" + this.name;
     }
 }
