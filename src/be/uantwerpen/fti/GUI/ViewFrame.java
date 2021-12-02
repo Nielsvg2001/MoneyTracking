@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class ViewFrame extends JFrame {
     public JPanel panelCont = new JPanel();
-    public JPanel homeScreen = new HomeScreen();
-    public JPanel addTicketScreen = new addTicketScreen();
+    public HomeScreen homeScreen = new HomeScreen();
+    public addTicketScreen addTicketScreen = new addTicketScreen();
     CardLayout cardLayout = new CardLayout();
     private static ViewFrame single_instance = null;
 
@@ -32,6 +32,13 @@ public class ViewFrame extends JFrame {
 
     public void showScreen(String name) {
         this.cardLayout.show(this.panelCont, name);
+    }
+
+    public void update_screen(){
+        homeScreen.update_screen();
+        panelCont.remove(addTicketScreen);
+        addTicketScreen = new addTicketScreen();
+        panelCont.add(addTicketScreen, "addTicketScreen");
     }
 
     public static void main(String[] args) {

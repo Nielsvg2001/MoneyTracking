@@ -1,7 +1,9 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.Database;
 import be.uantwerpen.fti.Database.PersonDatabase;
+import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
@@ -59,7 +61,7 @@ public class addTicketScreen extends JPanel {
                 System.out.println(price);
             }
             catch(Exception e){
-                System.out.println(e);
+                e.printStackTrace();
             }
             if (checkbox.isSelected()) {
                 System.out.println("equal");
@@ -74,9 +76,10 @@ public class addTicketScreen extends JPanel {
                     System.out.println("doet moee" + PersonDatabase.getInstance().getEntry(key2));
                 }
             }
+            TicketController.getInstance(TicketDatabase.getInstance()).addTicket(newticket);
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
-
+            viewFrame.update_screen();
         });
     }
 
