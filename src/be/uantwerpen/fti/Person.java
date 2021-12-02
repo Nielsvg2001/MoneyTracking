@@ -10,7 +10,7 @@ public class Person {
     private String name;
     private String mail;
     private String GSMNummer;
-    private UUID id;
+    private final UUID id;
 
     public Person(String name) {
         this.name = name;
@@ -54,25 +54,27 @@ public class Person {
         return id;
     }
 
-    public HashMap<Person, Double> calculate() {
-        HashMap<Person, Double> dept = new HashMap<>();
-        for(Ticket ticket: TicketDatabase.getInstance().ticketList()){
-            // Waarom kan ik bij bv ticket.getOws().get(person) niet ticket.getOws().get(this) gebruiken?
-            if(this.id == ticket.getPayer().id){
-                for(Person person: ticket.getOws().keySet()){
-                    Double amount = ticket.getOws().get(person) != null ? ticket.getOws().get(person) : ticket.getPaid_amount()/ (ticket.getOws().size() + 1);
-                    if(dept.containsKey(person))
-                        dept.put(person, dept.get(person) + amount);
+    public HashMap<UUID, Double> calculate() {
+        HashMap<UUID, Double> dept = new HashMap<>();
+        for (Ticket ticket : TicketDatabase.getInstance().ticketList()) {
+            for (UUID personuuid : ticket.getOws().keySet()) {
+
+                if (ticket.getOws().get(personuuid) == null)
+                    ticket.getOws().put(personuuid, ticket.getPaid_amount() / (ticket.getOws().size() + 1));
+
+                if (personuuid == this.id) {
+                    if (dept.containsKey(ticket.getPayerid()))
+                        dept.put(ticket.getPayerid(), dept.get(ticket.getPayerid()) - ticket.getOws().get(this.id));
                     else
-                        dept.put(person, amount);
+                        dept.put(ticket.getPayerid(), -ticket.getOws().get(this.id));
                 }
-            }
-            if(ticket.getOws().containsKey(this)){
-                Double amount = ticket.getOws().get(this) != null ? ticket.getOws().get(this) : ticket.getPaid_amount()/ (ticket.getOws().size() + 1);
-                if(dept.containsKey(ticket.getPayer()))
-                    dept.put(ticket.getPayer(), dept.get(ticket.getPayer()) - amount);
-                else
-                    dept.put(ticket.getPayer(), -amount);
+
+                if (ticket.getPayerid() == this.id) {
+                    if (dept.containsKey(personuuid))
+                        dept.put(personuuid, dept.get(personuuid) + ticket.getOws().get(personuuid));
+                    else
+                        dept.put(personuuid, ticket.getOws().get(personuuid));
+                }
             }
         }
         return dept;

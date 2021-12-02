@@ -4,7 +4,7 @@ import be.uantwerpen.fti.Ticket.Ticket;
 
 import java.beans.PropertyChangeEvent;
 
-public class TicketDatabaseObserver implements Observer{
+public class TicketDatabaseObserver implements Observer {
 
     public TicketDatabaseObserver() {
     }

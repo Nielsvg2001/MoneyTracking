@@ -2,6 +2,7 @@ package be.uantwerpen.fti.Ticket;
 
 // https://stackoverflow.com/questions/9083096/drawing-an-image-to-a-jpanel-within-a-jframe
 
+import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
 
 import java.awt.*;
@@ -14,9 +15,9 @@ public abstract class Ticket {
     private String name;
     private TicketType ticketType;
     private Image image;
-    private Person payer;
+    private UUID payerid;
     private Double paid_amount;
-    private HashMap<Person, Double> ows = new HashMap<>();
+    private final HashMap<UUID, Double> ows = new HashMap<>();
 
     public Ticket(String name) {
         this.name = name;
@@ -50,12 +51,12 @@ public abstract class Ticket {
         return uuid;
     }
 
-    public Person getPayer() {
-        return payer;
+    public UUID getPayerid() {
+        return payerid;
     }
 
-    public void setPayer(Person payer) {
-        this.payer = payer;
+    public void setPayerid(UUID payerid) {
+        this.payerid = payerid;
     }
 
     public Double getPaid_amount() {
@@ -66,28 +67,30 @@ public abstract class Ticket {
         this.paid_amount = paid_amount;
     }
 
-    public void addOws(Person person, Double amount){
-        this.ows.put(person, amount);
+    public void addOws(UUID personid, Double amount) {
+        this.ows.put(personid, amount);
     }
 
-    public void addOws(Person person){
-        this.ows.put(person, null);
+    public void addOws(UUID personid) {
+        this.ows.put(personid, null);
     }
 
 
-    public HashMap<Person, Double> getOws() {
+    public HashMap<UUID, Double> getOws() {
         return ows;
     }
 
     @Override
-    public String toString(){
-        if(this.payer == null | this.paid_amount == null)
+    public String toString() {
+        if (this.payerid == null | this.paid_amount == null)
             return this.getTicketType() + ": " + this.getName();
-        else{
+        else {
+            Person payer = PersonDatabase.getInstance().getEntry(this.payerid);
             StringBuilder string = new StringBuilder(this.getTicketType() + ": " + this.getName() + "\n");
-            string.append(this.payer.getName()).append(" betaalde: ").append(this.paid_amount);
-            for(Person person: this.ows.keySet()){
-                string.append("\n").append(person.getName()).append(" verschuldigd: ").append(this.ows.get(person));
+            string.append(payer.getName()).append(" betaalde: ").append(this.paid_amount);
+            for (UUID personid : this.ows.keySet()) {
+                Person person = PersonDatabase.getInstance().getEntry(personid);
+                string.append("\n").append(person.getName()).append(" verschuldigd: ").append(this.ows.get(personid));
             }
             return "" + string;
         }
