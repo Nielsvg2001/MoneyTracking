@@ -10,13 +10,6 @@ public abstract class Database {
     public Database() {
     }
 
-
-    public void addEntry(){}
-    public void removeEntry(){}
-
-    // To Do add observer
-    //public abstract void addObserver(Observer o);
-
     public void addObserver(Observer o){
         support.addPropertyChangeListener(o);
         System.out.println("added observer");
