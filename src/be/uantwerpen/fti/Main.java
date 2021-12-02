@@ -4,6 +4,8 @@ import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
+import be.uantwerpen.fti.GUI.ViewFrame;
+import be.uantwerpen.fti.GUI.addTicketScreen;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
 import be.uantwerpen.fti.observers.PersonDatabaseObserver;
@@ -47,9 +49,9 @@ public class Main {
         System.out.println();
 
         //test Person
-        Person p1 = new Person("jos");
+        Person p1 = new Person("jos1");
         Person p2 = new Person("jos","jos@ua.com","01236");
-        Person p3 = new Person("jos");
+        Person p3 = new Person("jos3");
         System.out.println(p1.getName());
         System.out.println(p2.getName());
         System.out.println(p2.getGSMNummer());
@@ -79,6 +81,10 @@ public class Main {
         pdb.allelements();
         pdb.removeEntry(p2);
         pdb.allelements();
+
+        // test addTicketScreen
+
+        ViewFrame vf = ViewFrame.getInstance();
 
         /* TO DO:
             -single  database person -> singleton
