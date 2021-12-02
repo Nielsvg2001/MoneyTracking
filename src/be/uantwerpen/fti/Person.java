@@ -6,7 +6,7 @@ public class Person {
     private String name;
     private String mail;
     private String GSMNummer;
-    private UUID id;
+    private final UUID id;
 
     public Person(String name) {
         this.name = name;
@@ -48,5 +48,10 @@ public class Person {
 
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

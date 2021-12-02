@@ -29,18 +29,19 @@ public class Main {
         gitkraken
                 sourcetree
 */
-
+/*
         //test ticketFactory
         TicketFactory ticketFactory = new TicketFactory();
         Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Dit is een test");
         System.out.println(ticket.getName());
         System.out.println(ticket.getType());
         System.out.println(ticket.getImage());
-
+*/
         //test Person
         Person p1 = new Person("jos");
         Person p2 = new Person("jos","jos@ua.com","01236");
         Person p3 = new Person("jos");
+        /*
         System.out.println(p1.getName());
         System.out.println(p2.getName());
         System.out.println(p2.getGSMNummer());
@@ -55,7 +56,7 @@ public class Main {
         System.out.println(p1.getId());
         System.out.println(p2.getId());
         System.out.println(p3.getId());
-
+*/
         // test persondatabase
         PersonDatabase pdb = PersonDatabase.getInstance();
         PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
