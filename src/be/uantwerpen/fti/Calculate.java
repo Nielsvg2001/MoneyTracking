@@ -4,6 +4,7 @@ import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Ticket.Ticket;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -32,16 +33,46 @@ public class Calculate {
             }
 
             if(debts.containsKey(ticket.getPayerid()))
-                debts.put(ticket.getPayerid(), debts.get(ticket.getPayerid()) + ticket.getPaid_amount() - sum);
+                debts.put(ticket.getPayerid(), debts.get(ticket.getPayerid()) + sum);
             else
-                debts.put(ticket.getPayerid(), ticket.getPaid_amount() - sum);
+                debts.put(ticket.getPayerid(), sum);
 
         }
         return debts;
     }
 
-    public HashMap<UUID, Double> calculate_total(Person person){
-        return null;
+    public void calculate_total(){
+        HashMap<UUID, Double> debts = calculate_debts();
+        HashMap<UUID, HashMap<UUID, Double>> total = new HashMap<>();
+        for(UUID personuuid: debts.keySet()){
+            HashMap<UUID, Double> entry = new HashMap<>();
+            for(UUID uuid: debts.keySet()){
+                Double to_pay = debts.get(personuuid);
+                Double to_get = debts.get(uuid);
+                if(to_pay < 0 & to_get > 0){
+                    if(to_get + to_pay < 0){
+                        debts.put(personuuid, to_pay + to_get);
+                        debts.put(uuid, 0.0);
+                        entry.put(uuid, to_get);
+                        total.put(personuuid,entry);
+                    }
+                    else if (to_get + to_pay == 0){
+                        debts.put(uuid, 0.0);
+                        debts.put(personuuid, 0.0);
+                        entry.put(uuid, to_get);
+                        total.put(personuuid,entry);
+                    }
+                    else{
+                        debts.put(personuuid, 0.0);
+                        debts.put(uuid, to_pay - to_get);
+                        entry.put(uuid,to_pay);
+                        total.put(personuuid,entry);
+
+                    }
+                }
+            }
+        }
+        System.out.println("Done");
     }
 
 

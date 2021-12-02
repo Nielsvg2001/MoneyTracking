@@ -43,8 +43,11 @@ public class Main {
         ticketController.addTicket(ticket2);
         ticket2.setPayerid(thijs.getId());
         ticket2.setPaid_amount(60.0);
-        ticket2.addOws(niels.getId());
-        ticket2.addOws(maxim.getId());
+        ticket2.addOws(niels.getId(), 20.0);
+        ticket2.addOws(maxim.getId(), 20.0);
+
+        Calculate calculate = new Calculate();
+        calculate.calculate_total();
 
     }
 }
