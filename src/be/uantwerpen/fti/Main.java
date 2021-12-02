@@ -46,17 +46,5 @@ public class Main {
         ticket2.addOws(niels.getId());
         ticket2.addOws(maxim.getId());
 
-        System.out.println(ticketController.ticketList());
-
-        System.out.println("\nNiels totaal: \n");
-        HashMap<UUID, Double> debts = niels.calculate();
-        for (UUID personuuid : debts.keySet()) {
-            Person p = personDatabase.getEntry(personuuid);
-            System.out.println(p.getName() + " totaal verschuldigd " + debts.get(personuuid));
-        }
-
-        System.out.println();
-        System.out.println(ticket2);
-
     }
 }
