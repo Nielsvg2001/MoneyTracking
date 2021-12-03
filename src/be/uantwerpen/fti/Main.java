@@ -81,6 +81,8 @@ public class Main {
         pdb.allelements();
         pdb.removeEntry(p2);
         pdb.allelements();
+        pdb.addEntry(p2);
+        pdb.addEntry(new Person("extra"));
 
         // test addTicketScreen
 
