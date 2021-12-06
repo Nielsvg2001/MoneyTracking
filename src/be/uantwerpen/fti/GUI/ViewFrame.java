@@ -1,7 +1,5 @@
 package be.uantwerpen.fti.GUI;
 
-import be.uantwerpen.fti.Ticket.Ticket;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +7,8 @@ public class ViewFrame extends JFrame {
     public JPanel panelCont = new JPanel();
     public HomeScreen homeScreen = new HomeScreen();
     public addTicketScreen addTicketScreen = new addTicketScreen();
+    public PersonList personList = new PersonList();
+    public addPersonScreen addPersonScreen = new addPersonScreen();
     CardLayout cardLayout = new CardLayout();
     private static ViewFrame single_instance = null;
 
@@ -16,6 +16,8 @@ public class ViewFrame extends JFrame {
         panelCont.setLayout(cardLayout);
         panelCont.add(homeScreen, "homeScreen");
         panelCont.add(addTicketScreen, "addTicketScreen");
+        panelCont.add(personList, "PersonList");
+        panelCont.add(addPersonScreen, "addPersonScreen");
         cardLayout.show(panelCont, "homeScreen");
         this.add(panelCont);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -34,11 +36,16 @@ public class ViewFrame extends JFrame {
         this.cardLayout.show(this.panelCont, name);
     }
 
-    public void update_screen(){
+    public void update_homescreen(){
         homeScreen.update_screen();
         panelCont.remove(addTicketScreen);
         addTicketScreen = new addTicketScreen();
         panelCont.add(addTicketScreen, "addTicketScreen");
+    }
+
+    public void update_personscreen(){
+        personList.update_screen();
+        addPersonScreen.reset();
     }
 
     public static void main(String[] args) {
