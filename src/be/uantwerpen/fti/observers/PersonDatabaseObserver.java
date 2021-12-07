@@ -2,7 +2,7 @@ package be.uantwerpen.fti.observers;
 
 import java.beans.PropertyChangeEvent;
 
-public class PersonDatabaseObserver implements Observer{
+public class PersonDatabaseObserver implements Observer {
     public PersonDatabaseObserver() {
     }
 
