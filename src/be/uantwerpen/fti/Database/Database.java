@@ -10,12 +10,12 @@ public abstract class Database {
     public Database() {
     }
 
-    public void addObserver(Observer o){
+    public void addObserver(Observer o) {
         support.addPropertyChangeListener(o);
         System.out.println("added observer");
     }
 
-    public void clearObservers(){
+    public void clearObservers() {
         support = new PropertyChangeSupport(this);
     }
     // https://www.java67.com/2013/02/10-examples-of-hashmap-in-java-programming-tutorial.html

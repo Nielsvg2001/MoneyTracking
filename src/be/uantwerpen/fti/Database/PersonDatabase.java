@@ -3,16 +3,14 @@ package be.uantwerpen.fti.Database;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
 
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.UUID;
 
-public class PersonDatabase extends Database{
+public class PersonDatabase extends Database {
 
-    private final HashMap<UUID, Person> db;
     private static PersonDatabase single_instance = null;
+    private final HashMap<UUID, Person> db;
 
 
     private PersonDatabase() {
@@ -20,8 +18,7 @@ public class PersonDatabase extends Database{
     }
 
 
-    public static PersonDatabase getInstance()
-    {
+    public static PersonDatabase getInstance() {
         if (single_instance == null)
             single_instance = new PersonDatabase() {
             };
@@ -30,12 +27,8 @@ public class PersonDatabase extends Database{
 
 
     public void addEntry(Person p) {
-        this.db.put(p.getId(),p);
-        support.firePropertyChange("added",p,p.getId());
-    }
-
-    public Person getEntry(Person p) {
-         return this.db.get(p.getId());
+        this.db.put(p.getId(), p);
+        support.firePropertyChange("added", p, p.getId());
     }
 
     public Person getEntry(UUID id) {
@@ -44,26 +37,20 @@ public class PersonDatabase extends Database{
 
     public void removeEntry(Person p) {
         db.remove(p.getId());
-        support.firePropertyChange("remove",p,p.getId());
+        support.firePropertyChange("remove", p, p.getId());
     }
 
     public void removeEntry(UUID id) {
         db.remove(id);
-        support.firePropertyChange("remove",id,"niks");
-    }
-
-    public void allelements(){
-        System.out.println("database: ");
-        for (UUID key : db.keySet()) {
-            System.out.println("key: " + key + " value: " + db.get(key));
-        }
+        support.firePropertyChange("remove", id, "niks");
     }
 
     public ArrayList<Person> PersonList() {
-        ArrayList<Person> personList = new ArrayList<>();
+        ArrayList<Person> PersonList = new ArrayList<>();
         for (UUID key : db.keySet()) {
-            personList.add(db.get(key));
+            PersonList.add(db.get(key));
         }
-        return personList;
+        return PersonList;
     }
+
 }

@@ -1,6 +1,5 @@
 package be.uantwerpen.fti.Database;
 
-import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import java.util.ArrayList;
@@ -34,12 +33,9 @@ public class TicketDatabase extends Database {
         this.support.firePropertyChange("ticket removed", 0, ticket);
     }
 
-    public void getEntry(Ticket ticket) {
-        this.ticketDatabase.get(ticket.getUuid());
-    }
 
-    public void getEntry(UUID uuid) {
-        this.ticketDatabase.get(uuid);
+    public Ticket getEntry(UUID uuid) {
+        return this.ticketDatabase.get(uuid);
     }
 
     public ArrayList<Ticket> ticketList() {

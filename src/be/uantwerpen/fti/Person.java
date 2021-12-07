@@ -3,10 +3,10 @@ package be.uantwerpen.fti;
 import java.util.UUID;
 
 public class Person {
+    private final UUID id;
     private String name;
     private String mail;
     private String GSMNummer;
-    private final UUID id;
 
     public Person(String name) {
         this.name = name;
@@ -51,7 +51,6 @@ public class Person {
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
+    public String toString() {return this.name;}
+
 }
