@@ -9,6 +9,7 @@ import java.awt.*;
 public class HomeScreen extends JPanel {
     JButton addTicketButton = new JButton("+");
     JButton calculateButton = new JButton("Calculate");
+    JButton viewPersonList = new JButton("PersonList");
 
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
@@ -16,11 +17,12 @@ public class HomeScreen extends JPanel {
     public HomeScreen(){
         this.add(addTicketButton);
         this.add(calculateButton);
+        this.add(viewPersonList);
         this.setBackground(Color.green);
         addTicketButtonButtonActionListener();
         addCalculateButtonButtonActionListener();
+        addviewPersonListButtonActionListener();
         update_screen();
-        scrollPane.setViewportView(ticketJList);
         this.add(scrollPane);
 
     }
@@ -41,6 +43,15 @@ public class HomeScreen extends JPanel {
             ViewFrame viewFrame = ViewFrame.getInstance();
             // hier nog iets doen als je op calculate duwt viewFrame.showScreen("");
             System.out.println("calculate");
+        });
+    }
+
+    public void addviewPersonListButtonActionListener()
+    {
+        this.viewPersonList.addActionListener(listener ->
+        {
+            ViewFrame viewFrame = ViewFrame.getInstance();
+            viewFrame.showScreen("PersonList");
         });
     }
 

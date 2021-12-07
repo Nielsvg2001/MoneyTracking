@@ -10,7 +10,6 @@ import be.uantwerpen.fti.Ticket.TicketType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +84,7 @@ public class addTicketScreen extends JPanel {
             TicketController.getInstance(TicketDatabase.getInstance()).addTicket(newticket);
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
-            viewFrame.update_screen();
+            viewFrame.update_homescreen();
         });
     }
 
