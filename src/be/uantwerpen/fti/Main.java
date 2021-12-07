@@ -67,22 +67,6 @@ public class Main {
         System.out.println(p2.getId());
         System.out.println(p3.getId());
 
-        // test persondatabase
-        PersonDatabase pdb = PersonDatabase.getInstance();
-        PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
-        pdb.addObserver(pdbO);
-        pdb.addEntry(p1);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p3);
-        pdb.allelements();
-        pdb.removeEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
-        pdb.addEntry(new Person("extra"));
 
         // test addTicketScreen
 

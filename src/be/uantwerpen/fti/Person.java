@@ -50,4 +50,7 @@ public class Person {
         return id;
     }
 
+    @Override
+    public String toString() {return this.name;}
+
 }
