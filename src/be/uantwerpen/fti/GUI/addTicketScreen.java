@@ -24,12 +24,14 @@ public class addTicketScreen extends JPanel {
     private final JComboBox<Person> dropdownPersons;
     private final JComboBox<TicketType> dropdownType;
     private final JButton doneButton = new JButton("Done");
+    private final JButton backButton = new JButton("Back");
     private Person payer;
     private final JTextField textBoxToEnterName;
     private final JTextField priceField;
     private final JCheckBox checkboxEqual = new JCheckBox("split equal");
     private final ArrayList<HashMap<JCheckBox,HashMap<UUID, Double>>> checklist = new ArrayList<>();
     private ItemListener checkboxEqualListener;
+
 
 
     HashMap<UUID,JTextField> toPayList= new HashMap<>();
@@ -124,8 +126,6 @@ public class addTicketScreen extends JPanel {
             gbc.gridy = teller;
             JCheckBox key = hmjcb.keySet().iterator().next();
             UUID key2 = hmjcb.get(key).keySet().iterator().next();
-            System.out.println("key2");
-            System.out.println(key2);
             this.add(toPayList.get(key2),gbc);
             toPayList.get(key2).setVisible(false);
             teller+=1;
@@ -141,34 +141,49 @@ public class addTicketScreen extends JPanel {
         this.add(new JLabel(""),gbc);
         gbc.ipady = 1;
 
+        gbc.gridx = 0; gbc.gridy = teller+3;
+        this.add(backButton,gbc);
+
         gbc.gridx = 1; gbc.gridy = teller+3;
         this.add(doneButton,gbc);
 
         checkboxEqual.setSelected(true);
         addDoneButtonActionListener();
+        addBackButtonActionListener();
+
 
 
 
         this.setBackground(Color.pink);
     }
 
+    private void addBackButtonActionListener() {
+        this.backButton.addActionListener(listener ->{
+            ViewFrame viewFrame = ViewFrame.getInstance();
+            viewFrame.showScreen("homeScreen");
+            viewFrame.update_homescreen();
+        });
+    }
+
     public void addDoneButtonActionListener() // add listener for Done button
     {
         this.doneButton.addActionListener(listener ->
         {
+
             String name = textBoxToEnterName.getText();
             TicketFactory ticketFactory = new TicketFactory();
-            Ticket newticket = ticketFactory.getTicket((TicketType) (Objects.requireNonNull(dropdownType.getSelectedItem())),name);
+            Ticket newticket = ticketFactory.getTicket((TicketType) (Objects.requireNonNull(dropdownType.getSelectedItem())), name);
             System.out.println(newticket);
+
             payer = (Person) dropdownPersons.getSelectedItem();
-            System.out.println("payer: " +payer);
+            System.out.println("payer: " + payer);
+            Double totalAmount = null;
             try {
                 String priceString = priceField.getText();
-                priceString = priceString.replace(',','.');
-                Double price = Double.parseDouble(priceString);
-                System.out.println(price);
-            }
-            catch(Exception e){
+                priceString = priceString.replace(',', '.');
+                totalAmount = Double.parseDouble(priceString);
+                System.out.println(totalAmount);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             if (checkboxEqual.isSelected()) {
@@ -179,31 +194,34 @@ public class addTicketScreen extends JPanel {
             }
 
 
-            for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist){
+            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
                 JCheckBox key = hmjcb.keySet().iterator().next();
-                if(key.isSelected()){
+                if (key.isSelected()) {
                     UUID key2 = hmjcb.get(key).keySet().iterator().next();
                     System.out.println("doet moee" + PersonDatabase.getInstance().getEntry(key2));
-
-                    float price = Float.parseFloat(toPayList.get(key2).getText());
                     Person p = PersonDatabase.getInstance().getEntry(key2);
-                    System.out.println(p + " moet " + price + " betalen");
+                    if(!checkboxEqual.isSelected()) {
+                        double price = Double.parseDouble(toPayList.get(key2).getText());
+                        System.out.println(p + " moet " + price + " betalen");
+                        newticket.addOws(p.getId(), price);
+                    }
+                    else{
+                        newticket.addOws(p.getId());
+                    }
                 }
             }
-            /*
-            for (UUID id : toPayList.keySet()){
-
-                System.out.println(id);
-                Person p = PersonDatabase.getInstance().getEntry(id);
-                System.out.println(p + " moet  + betalen");
-                float price = Float.parseFloat(toPayList.get(id).getText());
-
-
-                System.out.println(p + " moet " + price + " betalen");
+            if(checkboxEqual.isSelected()){
+                newticket.splitEqual();
             }
 
-             */
+
+
+
+
+            newticket.setPaid_amount(totalAmount);
+            newticket.setPayerid(payer.getId());
             TicketController.getInstance(TicketDatabase.getInstance()).addTicket(newticket);
+            System.out.println(newticket);
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
             viewFrame.update_homescreen();
@@ -259,13 +277,10 @@ public class addTicketScreen extends JPanel {
            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
                 JCheckBox key = hmjcb.keySet().iterator().next();
                 UUID key2 = hmjcb.get(key).keySet().iterator().next();
-                System.out.println("key2");
-                System.out.println(key2);
                 if (!checkboxEqual.isSelected()){
                     toPayList.get(key2).setVisible(key.isSelected());
                     System.out.println("setvisible key.isselected");
                 }
-
                 else {
                     toPayList.get(key2).setVisible(false);
                     System.out.println("setvisible false");

@@ -74,16 +74,9 @@ public class Main {
         PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
         pdb.addObserver(pdbO);
         pdb.addEntry(p1);
-        pdb.allelements();
         pdb.addEntry(p2);
-        pdb.allelements();
         pdb.addEntry(p2);
-        pdb.allelements();
         pdb.addEntry(p3);
-        pdb.allelements();
-        pdb.removeEntry(p2);
-        pdb.allelements();
-        pdb.addEntry(p2);
         pdb.addEntry(new Person("extratestpersoon"));
 
         // test addTicketScreen
