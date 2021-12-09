@@ -1,5 +1,7 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.Database.PersonDatabase;
+import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.util.UUID;
 
 public class ViewFrame extends JFrame {
 
-    public UUID currentUser;
+    public UUID currentUser = PersonDatabase.getInstance().PersonList().toArray(new Person[0])[0].getId();
 
     public JPanel panelCont = new JPanel();
     public HomeScreen homeScreen = new HomeScreen(currentUser);
@@ -52,10 +54,6 @@ public class ViewFrame extends JFrame {
     public void update_personscreen(){
         personList.update_screen();
         addPersonScreen.reset();
-    }
-
-    public void setCurrentUser(UUID currentUser) {
-        this.currentUser = currentUser;
     }
 
     public static void main(String[] args) {

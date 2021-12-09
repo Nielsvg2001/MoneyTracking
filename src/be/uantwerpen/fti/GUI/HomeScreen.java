@@ -1,7 +1,10 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.Calculate;
+import be.uantwerpen.fti.Controller.TicketController;
+import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
+import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
@@ -46,10 +49,13 @@ public class HomeScreen extends JPanel {
     {
         this.calculateButton.addActionListener(listener ->
         {
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            // hier nog iets doen als je op calculate duwt viewFrame.showScreen("");
             Calculate calculate = new Calculate();
             HashMap<UUID, Double> person_total =  calculate.person_total(currentUser);
+            for(UUID uuid: person_total.keySet()){
+                Person person = PersonDatabase.getInstance().getEntry(uuid);
+                JLabel jLabel = new JLabel(person.getName() + ": " + person_total.get(uuid));
+                this.add(jLabel);
+            }
         });
     }
 
