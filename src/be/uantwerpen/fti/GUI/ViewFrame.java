@@ -26,7 +26,7 @@ public class ViewFrame extends JFrame {
         panelCont.add(addPersonScreen, "addPersonScreen");
         cardLayout.show(panelCont, "homeScreen");
         this.add(panelCont);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
         this.setVisible(true);
     }
