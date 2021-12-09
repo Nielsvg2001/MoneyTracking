@@ -1,9 +1,7 @@
 package be.uantwerpen.fti.GUI;
 
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
+import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Person;
-import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,8 +22,7 @@ public class PersonList extends JPanel {
         this.add(scrollPane);
     }
 
-    public void addPersonButtonButtonActionListener()
-    {
+    public void addPersonButtonButtonActionListener() {
         this.addPersonButton.addActionListener(listener ->
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
@@ -33,8 +30,7 @@ public class PersonList extends JPanel {
         });
     }
 
-    public void homescreenButtonnButtonActionListener()
-    {
+    public void homescreenButtonnButtonActionListener() {
         this.homescreenButton.addActionListener(listener ->
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
@@ -43,8 +39,8 @@ public class PersonList extends JPanel {
     }
 
 
-    public void update_screen(){
-        PersonJlist = new JList<>(PersonDatabase.getInstance().PersonList().toArray(new Person[0]));
+    public void update_screen() {
+        PersonJlist = new JList<>(PersonController.getInstance().personArray());
         this.scrollPane.setViewportView(PersonJlist);
     }
 }

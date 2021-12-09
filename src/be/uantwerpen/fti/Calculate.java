@@ -1,7 +1,7 @@
 package be.uantwerpen.fti;
 
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
+import be.uantwerpen.fti.Controller.PersonController;
+import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class Calculate {
 
-    private final PersonDatabase personDatabase = PersonDatabase.getInstance();
-    private final TicketDatabase ticketDatabase = TicketDatabase.getInstance();
+    private final PersonController personController = PersonController.getInstance();
+    private final TicketController ticketController = TicketController.getInstance();
 
 
     public Calculate() {
@@ -19,7 +19,7 @@ public class Calculate {
 
     public HashMap<UUID, Double> calculate_debts() {
         HashMap<UUID, Double> debts = new HashMap<>();
-        for (Ticket ticket : ticketDatabase.ticketList()) {
+        for (Ticket ticket : ticketController.ticketArray()) {
 
             Double sum = 0.0;
             for (UUID personuuid : ticket.getOws().keySet()) {
@@ -84,9 +84,9 @@ public class Calculate {
     public HashMap<UUID, Double> person_total(UUID personuuid) {
         HashMap<UUID, HashMap<UUID, Double>> total = calculate_total();
 
-        System.out.println(personDatabase.getEntry(personuuid).getName());
+        System.out.println(personController.getPerson(personuuid).getName());
         for (UUID uuid1 : total.get(personuuid).keySet())
-            System.out.println(personDatabase.getEntry(uuid1).getName() + " -> " + total.get(personuuid).get(uuid1));
+            System.out.println(personController.getPerson(uuid1).getName() + " -> " + total.get(personuuid).get(uuid1));
         System.out.println();
         return total.get(personuuid);
 

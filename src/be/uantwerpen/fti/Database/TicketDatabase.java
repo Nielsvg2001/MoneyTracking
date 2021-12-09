@@ -38,11 +38,11 @@ public class TicketDatabase extends Database {
         return this.ticketDatabase.get(uuid);
     }
 
-    public ArrayList<Ticket> ticketList() {
-        ArrayList<Ticket> ticketList = new ArrayList<>();
+    public Ticket[] ticketArray() {
+        ArrayList<Ticket> ticketArrayList = new ArrayList<>();
         for (UUID key : ticketDatabase.keySet()) {
-            ticketList.add(ticketDatabase.get(key));
+            ticketArrayList.add(ticketDatabase.get(key));
         }
-        return ticketList;
+        return ticketArrayList.toArray(new Ticket[0]);
     }
 }
