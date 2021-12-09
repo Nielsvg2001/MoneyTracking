@@ -1,10 +1,12 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.Scheme;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
 
@@ -35,6 +37,10 @@ public class addTicketScreen extends JPanel {
     private final ArrayList<HashMap<JCheckBox,HashMap<UUID, Double>>> checklist = new ArrayList<>();
     private ItemListener checkboxEqualListener;
     private ItemListener checkboxPersonListener;
+    private final JLabel nameLabel = new JLabel("Naam");
+    private final JLabel typeLabel = new JLabel("Type");
+    private final JLabel payerLabel = new JLabel("Payer");
+    private final JLabel toPayLabel = new JLabel("Bedrag");
 
 
 
@@ -50,7 +56,7 @@ public class addTicketScreen extends JPanel {
 
         gbc.gridx = 0; gbc.gridy = 0;
 
-        this.add(new JLabel("Naam"),gbc);
+        this.add(nameLabel,gbc);
 
         gbc.gridx = 1; gbc.gridy = 0;
         gbc.insets = new Insets(0,0,0,0);
@@ -60,7 +66,7 @@ public class addTicketScreen extends JPanel {
         this.add(textBoxToEnterName, gbc);
 
         gbc.gridx = 0; gbc.gridy = 1;
-        this.add(new JLabel("Type"),gbc);
+        this.add(typeLabel,gbc);
         gbc.gridx = 1; gbc.gridy = 1;
         // Add dropdown Type
         TicketType[] typeList = TicketType.values();
@@ -70,7 +76,7 @@ public class addTicketScreen extends JPanel {
 
 
         gbc.gridx = 0; gbc.gridy = 2;
-        this.add(new JLabel("Payer"),gbc);
+        this.add(payerLabel,gbc);
         //Persons
         PersonDatabase db = PersonDatabase.getInstance();
         Person[] personList = db.PersonList().toArray(new Person[0]);
@@ -85,7 +91,7 @@ public class addTicketScreen extends JPanel {
 
 
         gbc.gridx = 0; gbc.gridy = 3;
-        this.add(new JLabel("Bedrag"),gbc);
+        this.add(toPayLabel,gbc);
         gbc.gridx = 1; gbc.gridy = 3;
         priceField = new JTextField(10);
         this.add(priceField,gbc);
@@ -153,10 +159,8 @@ public class addTicketScreen extends JPanel {
         addDoneButtonActionListener();
         addBackButtonActionListener();
 
+        this.setBackground(Color.WHITE);
 
-
-
-        this.setBackground(Color.pink);
     }
 
     private void addBackButtonActionListener() {
@@ -225,6 +229,21 @@ public class addTicketScreen extends JPanel {
             viewFrame.showScreen("homeScreen");
             viewFrame.update_homescreen();
         });
+    }
+
+    public void updateMode(){
+        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+            nameLabel.setForeground(Color.WHITE);
+            typeLabel.setForeground(Color.WHITE);
+            payerLabel.setForeground(Color.WHITE);
+            toPayLabel.setForeground(Color.WHITE);
+        }
+        else{
+            nameLabel.setForeground(Color.BLACK);
+            typeLabel.setForeground(Color.BLACK);
+            payerLabel.setForeground(Color.BLACK);
+            toPayLabel.setForeground(Color.BLACK);
+            }
     }
 /*
     public void updatePersons(){ // updates all fields connected to Person and PersonDatabase

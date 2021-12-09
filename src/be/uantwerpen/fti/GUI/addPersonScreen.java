@@ -1,10 +1,12 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.Scheme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,28 +24,33 @@ public class addPersonScreen extends JPanel {
     GridBagLayout gridBagLayout = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
 
+    private final JLabel personLabel = new JLabel("Nieuwe Persoon");
+    private final JLabel nameLabel = new JLabel("Name:");
+    private final JLabel mailLabel = new JLabel("Email:");
+    private final JLabel phoneLabel =new JLabel("Phone:");
+
 
     public addPersonScreen(){
         this.setLayout(gridBagLayout);
         gbc.ipadx = 1; gbc.ipady = 1;
 
         gbc.gridwidth = 3; gbc.gridx = 1; gbc.gridy = 0;
-        this.add(new JLabel("Nieuwe Persoon"), gbc);
+        this.add(personLabel, gbc);
 
         gbc.gridwidth = 1;
 
         gbc.gridx = 0; gbc.gridy = 1;
-        this.add(new JLabel("Name:"), gbc);
+        this.add(nameLabel, gbc);
         gbc.gridx = 2; gbc.gridy = 1;
         this.add(textBoxToEnterName, gbc);
 
         gbc.gridx = 0; gbc.gridy = 2;
-        this.add(new JLabel("Email:"), gbc);
+        this.add(mailLabel, gbc);
         gbc.gridx = 2; gbc.gridy = 2;
         this.add(textBoxToEnterEmail, gbc);
 
         gbc.gridx = 0; gbc.gridy = 3;
-        this.add(new JLabel("Phone:"), gbc);
+        this.add(phoneLabel, gbc);
         gbc.gridx = 2; gbc.gridy = 3;
         this.add(textBoxToEnterPhone, gbc);
 
@@ -52,8 +59,8 @@ public class addPersonScreen extends JPanel {
 
         gbc.gridwidth = 1; gbc.gridx = 0; gbc.gridy = 4;
         this.add(backButton, gbc);
+        this.setBackground(Color.WHITE);
 
-        this.setBackground(Color.ORANGE);
         doneButtonButtonActionListener();
         backButtonButtonActionListener();
 
@@ -88,5 +95,21 @@ public class addPersonScreen extends JPanel {
             viewFrame.showScreen("PersonList");
             viewFrame.update_personscreen();
         });
+    }
+
+    public void updateMode(){
+        System.out.println("updateModeAddpersonScreen");
+        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+            personLabel.setForeground(Color.WHITE);
+            nameLabel.setForeground(Color.WHITE);
+            mailLabel.setForeground(Color.WHITE);
+            phoneLabel.setForeground(Color.WHITE);
+        }
+        else{
+            personLabel.setForeground(Color.BLACK);
+            nameLabel.setForeground(Color.BLACK);
+            mailLabel.setForeground(Color.BLACK);
+            phoneLabel.setForeground(Color.BLACK);
+        }
     }
 }

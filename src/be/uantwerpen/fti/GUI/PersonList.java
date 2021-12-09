@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
@@ -25,7 +26,6 @@ public class PersonList extends JPanel {
     }
 
     private PersonList() {
-        this.setBackground(Color.cyan);
         this.add(addPersonButton);
         this.add(homescreenButton);
         addPersonButtonButtonActionListener();
@@ -35,6 +35,8 @@ public class PersonList extends JPanel {
         scrollPane.setPreferredSize(new Dimension(100, 300));
         this.add(scrollPane);
         this.add(editButton);
+        this.setBackground(Color.WHITE);
+
     }
 
     public void addPersonButtonButtonActionListener()

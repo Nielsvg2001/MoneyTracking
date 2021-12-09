@@ -1,10 +1,13 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.Calculate;
+import be.uantwerpen.fti.ColorScheme;
+import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.Scheme;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
@@ -15,15 +18,15 @@ import java.util.UUID;
 public class HomeScreen extends JPanel {
     public UUID currentUser;
 
-    JButton addTicketButton = new JButton("+");
+    JButton addTicketButton = new JButton("Add Ticket");
     JButton calculateButton = new JButton("Calculate");
     JButton viewPersonList = new JButton("PersonList");
+    private final JComboBox<Scheme> dropdownMode;
+
 
     public DefaultListModel<String> defaultListModel = new DefaultListModel<>();
     public JList<String> list = new JList<>(defaultListModel);
-
-
-
+    private final JLabel personLabel;
 
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
@@ -33,14 +36,22 @@ public class HomeScreen extends JPanel {
         this.add(addTicketButton);
         this.add(calculateButton);
         this.add(viewPersonList);
-        this.setBackground(Color.green);
         addTicketButtonButtonActionListener();
         addCalculateButtonButtonActionListener();
         addviewPersonListButtonActionListener();
         update_screen();
         this.add(scrollPane);
-        this.add(new JLabel(PersonDatabase.getInstance().getEntry(currentUser).getName()));
+        personLabel = new JLabel(PersonDatabase.getInstance().getEntry(currentUser).getName());
+        this.add(personLabel);
         this.add(list);
+
+        dropdownMode = new JComboBox<>(Scheme.values());
+        dropdownMode.setVisible(true);
+        this.add(dropdownMode);
+        dropdownMode.setSelectedItem(Scheme.Light);
+        addModeActionListener();
+
+        this.setBackground(Color.WHITE);
 
     }
 
@@ -79,5 +90,27 @@ public class HomeScreen extends JPanel {
     public void update_screen() {
         ticketJList = new JList<>(TicketDatabase.getInstance().ticketList().toArray(new Ticket[0]));
         this.scrollPane.setViewportView(ticketJList);
+    }
+
+    public void updateMode(){
+        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+            personLabel.setForeground(Color.WHITE);
+            list.setForeground(Color.WHITE);
+            list.setBackground(Color.DARK_GRAY);
+        }
+        else{
+            personLabel.setForeground(Color.BLACK);
+            list.setBackground(Color.white);
+            list.setForeground(Color.BLACK);
+
+        }
+    }
+
+    public void addModeActionListener(){
+        dropdownMode.addActionListener(listener ->
+        {
+            ColorScheme.getInstance().setMode((Scheme) dropdownMode.getSelectedItem());
+            ViewFrame.getInstance().update_Mode();
+        });
     }
 }

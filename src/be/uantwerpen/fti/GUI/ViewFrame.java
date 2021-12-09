@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
@@ -20,6 +21,7 @@ public class ViewFrame extends JFrame {
     public EditScreen editScreen =EditScreen.getInstance();
     CardLayout cardLayout = new CardLayout();
     private static ViewFrame single_instance = null;
+
 
     private ViewFrame() {
         panelCont.setLayout(cardLayout);
@@ -57,6 +59,41 @@ public class ViewFrame extends JFrame {
     public void update_personscreen(){
         personList.update_screen();
         addPersonScreen.reset();
+    }
+
+    public void update_Mode(){
+        Color colorLight = Color.WHITE;
+        Color colorDark = Color.DARK_GRAY;
+        addPersonScreen.updateMode();
+        addTicketScreen.updateMode();
+        editScreen.updateMode();
+        homeScreen.updateMode();
+        switch (ColorScheme.getInstance().getMode()){
+            case Light :{
+                this.addPersonScreen.setBackground(colorLight);
+                this.addTicketScreen.setBackground(colorLight);
+                this.editScreen.setBackground(colorLight);
+                this.homeScreen.setBackground(colorLight);
+                this.personList.setBackground(colorLight);
+                break;
+            }
+            case Color: {
+                this.addPersonScreen.setBackground(Color.ORANGE);
+                this.addTicketScreen.setBackground(Color.PINK);
+                this.editScreen.setBackground(Color.RED);
+                this.homeScreen.setBackground(Color.GREEN);
+                this.homeScreen.setBackground(Color.cyan);
+                break;
+            }
+            case Dark: {
+                this.addPersonScreen.setBackground(colorDark);
+                this.addTicketScreen.setBackground(colorDark);
+                this.editScreen.setBackground(colorDark);
+                this.homeScreen.setBackground(colorDark);
+                this.personList.setBackground(colorDark);
+                break;
+            }
+        }
     }
 
     public static void main(String[] args) {
