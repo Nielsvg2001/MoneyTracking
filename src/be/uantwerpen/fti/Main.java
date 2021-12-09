@@ -3,22 +3,16 @@ package be.uantwerpen.fti;
 
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.GUI.ViewFrame;
-import be.uantwerpen.fti.Ticket.Ticket;
-import be.uantwerpen.fti.Ticket.TicketType;
 
 public class Main {
 
     public static void main(String[] args) {
         // Init
         TicketFactory ticketFactory = new TicketFactory();
-        TicketDatabase ticketDatabase = TicketDatabase.getInstance();
-        PersonDatabase personDatabase = PersonDatabase.getInstance();
-        TicketController ticketController = TicketController.getInstance(ticketDatabase);
-        PersonController personController = PersonController.getInstance(personDatabase);
+        TicketController ticketController = TicketController.getInstance();
+        PersonController personController = PersonController.getInstance();
 
         Person niels = new Person("Niels", "niels@uantwerpen.be", "0453503949");
         Person thijs = new Person("Thijs", "thijs@uantwerpen.be", "0487529926");
