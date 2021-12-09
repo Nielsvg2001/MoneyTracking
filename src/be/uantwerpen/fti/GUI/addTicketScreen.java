@@ -10,6 +10,9 @@ import be.uantwerpen.fti.Ticket.TicketType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,7 @@ public class addTicketScreen extends JPanel {
     private final JCheckBox checkboxEqual = new JCheckBox("split equal");
     private final ArrayList<HashMap<JCheckBox,HashMap<UUID, Double>>> checklist = new ArrayList<>();
     private ItemListener checkboxEqualListener;
+    private ItemListener checkboxPersonListener;
 
 
 
@@ -39,10 +43,8 @@ public class addTicketScreen extends JPanel {
 
 
     public addTicketScreen(){ // add all button's, textfields, checkboxes, dropdown's and listeners
-
+        setcheckboxPersonListener();
         this.setLayout(gridBagLayout);
-        //gbc.weightx = 0.1;
-        //gbc.weighty = 0.1;
         gbc.ipadx = 1; gbc.ipady = 0;
 
 
@@ -63,7 +65,6 @@ public class addTicketScreen extends JPanel {
         // Add dropdown Type
         TicketType[] typeList = TicketType.values();
         dropdownType = new JComboBox<>(typeList);
-        dropdownType.setVisible(true);
         this.add(dropdownType,gbc);
 
 
@@ -108,11 +109,11 @@ public class addTicketScreen extends JPanel {
         gbc.gridx = 0;
 
         for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist){
-            for ( JCheckBox key : hmjcb.keySet() ) {
+            for ( JCheckBox checkboxPerson : hmjcb.keySet() ) {
                 gbc.gridy = teller;
-                this.add(key,gbc);
-                key.setSelected(true);
-                UUID key2 = hmjcb.get(key).keySet().iterator().next();
+                this.add(checkboxPerson,gbc);
+                checkboxPerson.setSelected(true);
+                UUID key2 = hmjcb.get(checkboxPerson).keySet().iterator().next();
                 toPayList.put(key2,new JTextField(10));
                 teller+=1;
             }
@@ -124,8 +125,9 @@ public class addTicketScreen extends JPanel {
         gbc.gridx = 1;
         for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist) {
             gbc.gridy = teller;
-            JCheckBox key = hmjcb.keySet().iterator().next();
-            UUID key2 = hmjcb.get(key).keySet().iterator().next();
+            JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
+            checkboxPerson.addItemListener(checkboxPersonListener);
+            UUID key2 = hmjcb.get(checkboxPerson).keySet().iterator().next();
             this.add(toPayList.get(key2),gbc);
             toPayList.get(key2).setVisible(false);
             teller+=1;
@@ -210,18 +212,15 @@ public class addTicketScreen extends JPanel {
                     }
                 }
             }
-            if(checkboxEqual.isSelected()){
-                newticket.splitEqual();
-            }
-
-
-
 
 
             newticket.setPaid_amount(totalAmount);
             newticket.setPayerid(payer.getId());
             TicketController.getInstance(TicketDatabase.getInstance()).addTicket(newticket);
             System.out.println(newticket);
+            if(checkboxEqual.isSelected()){
+                newticket.splitEqual();
+            }
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
             viewFrame.update_homescreen();
@@ -275,17 +274,42 @@ public class addTicketScreen extends JPanel {
     public void setcheckboxEqualListener(){
         checkboxEqualListener = e -> {
            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
-                JCheckBox key = hmjcb.keySet().iterator().next();
-                UUID key2 = hmjcb.get(key).keySet().iterator().next();
+                JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
+                UUID pId = hmjcb.get(checkboxPerson).keySet().iterator().next();
+                System.out.println(PersonDatabase.getInstance().getEntry(pId));
+                System.out.println(checkboxPerson.isSelected());
                 if (!checkboxEqual.isSelected()){
-                    toPayList.get(key2).setVisible(key.isSelected());
+                    toPayList.get(pId).setVisible(checkboxPerson.isSelected());
                     System.out.println("setvisible key.isselected");
                 }
                 else {
-                    toPayList.get(key2).setVisible(false);
+                    toPayList.get(pId).setVisible(false);
                     System.out.println("setvisible false");
                 }
             }
+           this.revalidate();
+           this.repaint();
+        };
+    }
+
+    public void setcheckboxPersonListener(){
+        checkboxPersonListener = e -> {
+            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
+                JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
+                UUID pId = hmjcb.get(checkboxPerson).keySet().iterator().next();
+                System.out.println(PersonDatabase.getInstance().getEntry(pId));
+                System.out.println(checkboxPerson.isSelected());
+                if (!checkboxEqual.isSelected()){
+                    toPayList.get(pId).setVisible(checkboxPerson.isSelected());
+                    System.out.println("setvisible key.isselected");
+                }
+                else {
+                    toPayList.get(pId).setVisible(false);
+                    System.out.println("setvisible false");
+                }
+            }
+            this.revalidate();
+            this.repaint();
         };
     }
 }
