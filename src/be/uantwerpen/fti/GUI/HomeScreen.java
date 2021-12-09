@@ -19,6 +19,12 @@ public class HomeScreen extends JPanel {
     JButton calculateButton = new JButton("Calculate");
     JButton viewPersonList = new JButton("PersonList");
 
+    public DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+    public JList<String> list = new JList<>(defaultListModel);
+
+
+
+
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
 
@@ -33,6 +39,7 @@ public class HomeScreen extends JPanel {
         addviewPersonListButtonActionListener();
         update_screen();
         this.add(scrollPane);
+        this.add(list);
 
     }
 
@@ -50,11 +57,11 @@ public class HomeScreen extends JPanel {
         this.calculateButton.addActionListener(listener ->
         {
             Calculate calculate = new Calculate();
+            defaultListModel.clear();
             HashMap<UUID, Double> person_total =  calculate.person_total(currentUser);
             for(UUID uuid: person_total.keySet()){
                 Person person = PersonDatabase.getInstance().getEntry(uuid);
-                JLabel jLabel = new JLabel(person.getName() + ": " + person_total.get(uuid));
-                this.add(jLabel);
+                defaultListModel.addElement(person.getName() + ": " + person_total.get(uuid));
             }
         });
     }
