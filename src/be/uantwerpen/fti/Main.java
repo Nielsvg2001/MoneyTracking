@@ -14,6 +14,7 @@ import be.uantwerpen.fti.observers.TicketDatabaseObserver;
 public class Main {
 
     public static void main(String[] args) {
+
         // Ticket factory test
 
         TicketFactory ticketFactory = new TicketFactory();
@@ -35,7 +36,7 @@ public class Main {
 
         ticketController.removeTicket(ticket3);
 
-        /*
+/*
         System.out.println("Test database volledig");
         System.out.println(ticketController.ticketList());
 
@@ -52,6 +53,7 @@ public class Main {
         Person p1 = new Person("jos1");
         Person p2 = new Person("jos","jos@ua.com","01236");
         Person p3 = new Person("jos3");
+        /*
         System.out.println(p1.getName());
         System.out.println(p2.getName());
         System.out.println(p2.getGSMNummer());
@@ -66,7 +68,16 @@ public class Main {
         System.out.println(p1.getId());
         System.out.println(p2.getId());
         System.out.println(p3.getId());
-
+*/
+        // test persondatabase
+        PersonDatabase pdb = PersonDatabase.getInstance();
+        PersonDatabaseObserver pdbO = new PersonDatabaseObserver();
+        pdb.addObserver(pdbO);
+        pdb.addEntry(p1);
+        pdb.addEntry(p2);
+        pdb.addEntry(p2);
+        pdb.addEntry(p3);
+        pdb.addEntry(new Person("extratestpersoon"));
 
         // test addTicketScreen
 
