@@ -17,6 +17,7 @@ public class ViewFrame extends JFrame {
     public addTicketScreen addTicketScreen = new addTicketScreen();
     public PersonList personList = new PersonList();
     public addPersonScreen addPersonScreen = new addPersonScreen();
+    public EditScreen editScreen =EditScreen.getInstance();
     CardLayout cardLayout = new CardLayout();
     private static ViewFrame single_instance = null;
 
@@ -26,6 +27,7 @@ public class ViewFrame extends JFrame {
         panelCont.add(addTicketScreen, "addTicketScreen");
         panelCont.add(personList, "PersonList");
         panelCont.add(addPersonScreen, "addPersonScreen");
+        panelCont.add(editScreen,"EditScreen");
         cardLayout.show(panelCont, "homeScreen");
         this.add(panelCont);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -13,6 +13,7 @@ public class addPersonScreen extends JPanel {
     PersonController personController = PersonController.getInstance(PersonDatabase.getInstance());
 
     JButton doneButton = new JButton("Done");
+    JButton backButton = new JButton("Back");
 
     JTextField textBoxToEnterName = new JTextField(10);
     JTextField textBoxToEnterEmail = new JTextField(10);
@@ -49,8 +50,13 @@ public class addPersonScreen extends JPanel {
         gbc.gridwidth = 3; gbc.gridx = 2; gbc.gridy = 4;
         this.add(doneButton, gbc);
 
+        gbc.gridwidth = 1; gbc.gridx = 0; gbc.gridy = 4;
+        this.add(backButton, gbc);
+
         this.setBackground(Color.ORANGE);
         doneButtonButtonActionListener();
+        backButtonButtonActionListener();
+
     }
 
     public void reset(){
@@ -68,6 +74,16 @@ public class addPersonScreen extends JPanel {
                 personController.addPerson(new Person(textBoxToEnterName.getText(), textBoxToEnterEmail.getText(), textBoxToEnterPhone.getText()));
             else if (!textBoxToEnterName.getText().isEmpty())
                 personController.addPerson(new Person(textBoxToEnterName.getText()));
+            ViewFrame viewFrame = ViewFrame.getInstance();
+            viewFrame.showScreen("PersonList");
+            viewFrame.update_personscreen();
+        });
+    }
+
+    public void backButtonButtonActionListener()
+    {
+        this.backButton.addActionListener(listener ->
+        {
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("PersonList");
             viewFrame.update_personscreen();

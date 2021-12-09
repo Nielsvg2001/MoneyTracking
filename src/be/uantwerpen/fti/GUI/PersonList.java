@@ -11,6 +11,7 @@ import java.awt.*;
 public class PersonList extends JPanel {
     JButton addPersonButton = new JButton("Voeg nieuwe persoon toe");
     JButton homescreenButton = new JButton("homescreen");
+    JButton editButton = new JButton("Edit");
     JScrollPane scrollPane = new JScrollPane();
     JList<Person> PersonJlist;
 
@@ -20,8 +21,10 @@ public class PersonList extends JPanel {
         this.add(homescreenButton);
         addPersonButtonButtonActionListener();
         homescreenButtonnButtonActionListener();
+        editButtonActionListener();
         update_screen();
         this.add(scrollPane);
+        this.add(editButton);
     }
 
     public void addPersonButtonButtonActionListener()
@@ -39,6 +42,18 @@ public class PersonList extends JPanel {
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
+        });
+    }
+
+    public void editButtonActionListener()
+    {
+        this.editButton.addActionListener(listener ->
+        {
+            Person p = PersonJlist.getModel().getElementAt(PersonJlist.getSelectedIndex());
+            EditScreen editScreen = EditScreen.getInstance();
+            editScreen.setPerson(p);
+            ViewFrame viewFrame = ViewFrame.getInstance();
+            viewFrame.showScreen("EditScreen");
         });
     }
 
