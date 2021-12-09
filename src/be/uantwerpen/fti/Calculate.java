@@ -34,7 +34,6 @@ public class Calculate {
                 debts.put(ticket.getPayerid(), debts.get(ticket.getPayerid()) + sum);
             else
                 debts.put(ticket.getPayerid(), sum);
-
         }
         return debts;
     }

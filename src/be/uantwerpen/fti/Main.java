@@ -1,35 +1,18 @@
 package be.uantwerpen.fti;
 
+
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
+import be.uantwerpen.fti.GUI.ViewFrame;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
 
-import java.util.UUID;
-
 public class Main {
 
-    public static void printTicket(Ticket ticket) {
-        if (ticket.getPayerid() == null | ticket.getPaid_amount() == null)
-            System.out.println(ticket.getTicketType() + " ->  " + ticket.getName());
-        else {
-            Person payer = PersonDatabase.getInstance().getEntry(ticket.getPayerid());
-            System.out.println(ticket.getTicketType() + ": " + ticket.getName());
-            System.out.println(payer.getName() + " betaalde: " + ticket.getPaid_amount());
-            for (UUID personid : ticket.getOws().keySet()) {
-                Person person = PersonDatabase.getInstance().getEntry(personid);
-                System.out.println(person.getName() + " verschuldigd: " + ticket.getOws().get(personid));
-            }
-        }
-        System.out.println();
-    }
-
-
     public static void main(String[] args) {
-
         // Init
         TicketFactory ticketFactory = new TicketFactory();
         TicketDatabase ticketDatabase = TicketDatabase.getInstance();
@@ -44,6 +27,8 @@ public class Main {
         personController.addPerson(niels);
         personController.addPerson(thijs);
         personController.addPerson(maxim);
+
+        /*
 
         // Ticket 1
         Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
@@ -70,15 +55,8 @@ public class Main {
         ticket3.addOws(thijs.getId());
         ticket3.splitEqual();
 
+        */
 
-        printTicket(ticket);
-        printTicket(ticket2);
-        printTicket(ticket3);
-
-        Calculate calculate = new Calculate();
-        calculate.person_total(niels.getId());
-        calculate.person_total(thijs.getId());
-        calculate.person_total(maxim.getId());
-
+        ViewFrame viewFrame = ViewFrame.getInstance();
     }
 }

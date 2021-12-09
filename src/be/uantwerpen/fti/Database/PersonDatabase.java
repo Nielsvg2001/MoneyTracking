@@ -1,7 +1,9 @@
 package be.uantwerpen.fti.Database;
 
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.Ticket.Ticket;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -43,11 +45,12 @@ public class PersonDatabase extends Database {
         support.firePropertyChange("remove", id, "niks");
     }
 
-    public void allelements() {
-        System.out.println("database: ");
+    public ArrayList<Person> PersonList() {
+        ArrayList<Person> PersonList = new ArrayList<>();
         for (UUID key : db.keySet()) {
-            System.out.println("key: " + key + " value: " + db.get(key));
+            PersonList.add(db.get(key));
         }
+        return PersonList;
     }
 
 }
