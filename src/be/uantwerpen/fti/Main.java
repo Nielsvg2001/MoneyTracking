@@ -28,6 +28,8 @@ public class Main {
         personController.addPerson(thijs);
         personController.addPerson(maxim);
 
+        /*
+
         // Ticket 1
         Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
         ticketController.addTicket(ticket);
@@ -52,6 +54,8 @@ public class Main {
         ticket3.addOws(niels.getId());
         ticket3.addOws(thijs.getId());
         ticket3.splitEqual();
+
+        */
 
         ViewFrame viewFrame = ViewFrame.getInstance();
     }

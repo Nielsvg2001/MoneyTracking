@@ -80,7 +80,7 @@ public abstract class Ticket {
     public void splitEqual() {
         for (UUID personuuid : this.getOws().keySet())
             if (this.getOws().get(personuuid) == null)
-                this.getOws().put(personuuid, this.getPaid_amount() / (this.getOws().size() + 1));
+                this.getOws().put(personuuid, this.getPaid_amount() / (this.getOws().size()));
     }
 
     @Override

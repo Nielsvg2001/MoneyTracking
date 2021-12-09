@@ -31,6 +31,7 @@ public class ViewFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
         this.setVisible(true);
+        this.setSize(375, 667);
     }
 
     public static ViewFrame getInstance() {
