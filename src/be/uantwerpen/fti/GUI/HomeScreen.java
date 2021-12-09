@@ -1,12 +1,17 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.Calculate;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class HomeScreen extends JPanel {
+    public UUID currentUser;
+
     JButton addTicketButton = new JButton("+");
     JButton calculateButton = new JButton("Calculate");
     JButton viewPersonList = new JButton("PersonList");
@@ -14,7 +19,8 @@ public class HomeScreen extends JPanel {
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
 
-    public HomeScreen(){
+    public HomeScreen(UUID currentUser){
+        this.currentUser = currentUser;
         this.add(addTicketButton);
         this.add(calculateButton);
         this.add(viewPersonList);
@@ -42,7 +48,8 @@ public class HomeScreen extends JPanel {
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
             // hier nog iets doen als je op calculate duwt viewFrame.showScreen("");
-            System.out.println("calculate");
+            Calculate calculate = new Calculate();
+            HashMap<UUID, Double> person_total =  calculate.person_total(currentUser);
         });
     }
 

@@ -1,11 +1,17 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.Person;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.UUID;
 
 public class ViewFrame extends JFrame {
+
+    public UUID currentUser;
+
     public JPanel panelCont = new JPanel();
-    public HomeScreen homeScreen = new HomeScreen();
+    public HomeScreen homeScreen = new HomeScreen(currentUser);
     public addTicketScreen addTicketScreen = new addTicketScreen();
     public PersonList personList = new PersonList();
     public addPersonScreen addPersonScreen = new addPersonScreen();
@@ -46,6 +52,10 @@ public class ViewFrame extends JFrame {
     public void update_personscreen(){
         personList.update_screen();
         addPersonScreen.reset();
+    }
+
+    public void setCurrentUser(UUID currentUser) {
+        this.currentUser = currentUser;
     }
 
     public static void main(String[] args) {

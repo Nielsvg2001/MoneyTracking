@@ -71,6 +71,7 @@ public class Main {
         // test addTicketScreen
 
         ViewFrame vf = ViewFrame.getInstance();
+        vf.setCurrentUser(p1.getId());
 
         /* TO DO:
             -single  database person -> singleton
