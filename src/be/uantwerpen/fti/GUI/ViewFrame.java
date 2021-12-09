@@ -15,7 +15,7 @@ public class ViewFrame extends JFrame {
     public JPanel panelCont = new JPanel();
     public HomeScreen homeScreen = new HomeScreen(currentUser);
     public addTicketScreen addTicketScreen = new addTicketScreen();
-    public PersonList personList = new PersonList();
+    public PersonList personList = PersonList.getInstance();
     public addPersonScreen addPersonScreen = new addPersonScreen();
     public EditScreen editScreen =EditScreen.getInstance();
     CardLayout cardLayout = new CardLayout();

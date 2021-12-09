@@ -14,8 +14,17 @@ public class PersonList extends JPanel {
     JButton editButton = new JButton("Edit");
     JScrollPane scrollPane = new JScrollPane();
     JList<Person> PersonJlist;
+    private static PersonList single_instance = null;
 
-    public PersonList() {
+
+    public static PersonList getInstance() {
+        if (single_instance == null)
+            single_instance = new PersonList() {
+            };
+        return single_instance;
+    }
+
+    private PersonList() {
         this.setBackground(Color.cyan);
         this.add(addPersonButton);
         this.add(homescreenButton);
@@ -23,6 +32,7 @@ public class PersonList extends JPanel {
         homescreenButtonnButtonActionListener();
         editButtonActionListener();
         update_screen();
+        scrollPane.setPreferredSize(new Dimension(100, 300));
         this.add(scrollPane);
         this.add(editButton);
     }
@@ -52,6 +62,7 @@ public class PersonList extends JPanel {
             Person p = PersonJlist.getModel().getElementAt(PersonJlist.getSelectedIndex());
             EditScreen editScreen = EditScreen.getInstance();
             editScreen.setPerson(p);
+            editScreen.updatescreen();
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("EditScreen");
         });
@@ -60,6 +71,7 @@ public class PersonList extends JPanel {
 
     public void update_screen(){
         PersonJlist = new JList<>(PersonDatabase.getInstance().PersonList().toArray(new Person[0]));
+        PersonJlist.setSelectedIndex(0);
         this.scrollPane.setViewportView(PersonJlist);
     }
 }
