@@ -4,8 +4,6 @@ import be.uantwerpen.fti.Calculate;
 import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Scheme;
 import be.uantwerpen.fti.Ticket.Ticket;
@@ -18,20 +16,18 @@ import java.util.UUID;
 public class HomeScreen extends JPanel {
     public UUID currentUser;
 
+    public DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+    public JList<String> list = new JList<>(defaultListModel);
     JButton addTicketButton = new JButton("Add Ticket");
     JButton calculateButton = new JButton("Calculate");
     JButton viewPersonList = new JButton("PersonList");
     private final JComboBox<Scheme> dropdownMode;
-
-
-    public DefaultListModel<String> defaultListModel = new DefaultListModel<>();
-    public JList<String> list = new JList<>(defaultListModel);
     private final JLabel personLabel;
 
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
 
-    public HomeScreen(UUID currentUser){
+    public HomeScreen(UUID currentUser) {
         this.currentUser = currentUser;
         this.add(addTicketButton);
         this.add(calculateButton);
@@ -55,8 +51,7 @@ public class HomeScreen extends JPanel {
 
     }
 
-    public void addTicketButtonButtonActionListener()
-    {
+    public void addTicketButtonButtonActionListener() {
         this.addTicketButton.addActionListener(listener ->
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
@@ -64,22 +59,20 @@ public class HomeScreen extends JPanel {
         });
     }
 
-    public void addCalculateButtonButtonActionListener()
-    {
+    public void addCalculateButtonButtonActionListener() {
         this.calculateButton.addActionListener(listener ->
         {
             Calculate calculate = new Calculate();
             defaultListModel.clear();
-            HashMap<UUID, Double> person_total =  calculate.person_total(currentUser);
-            for(UUID uuid: person_total.keySet()){
-                Person person = PersonDatabase.getInstance().getEntry(uuid);
+            HashMap<UUID, Double> person_total = calculate.person_total(currentUser);
+            for (UUID uuid : person_total.keySet()) {
+                Person person = PersonController.getInstance().getPerson(uuid);
                 defaultListModel.addElement(person.getName() + ": " + person_total.get(uuid));
             }
         });
     }
 
-    public void addviewPersonListButtonActionListener()
-    {
+    public void addviewPersonListButtonActionListener() {
         this.viewPersonList.addActionListener(listener ->
         {
             ViewFrame viewFrame = ViewFrame.getInstance();
@@ -88,7 +81,7 @@ public class HomeScreen extends JPanel {
     }
 
     public void update_screen() {
-        ticketJList = new JList<>(TicketDatabase.getInstance().ticketList().toArray(new Ticket[0]));
+        ticketJList = new JList<>(TicketController.getInstance().ticketArray());
         this.scrollPane.setViewportView(ticketJList);
     }
 

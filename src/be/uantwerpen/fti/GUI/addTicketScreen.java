@@ -1,9 +1,8 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
+import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Scheme;
@@ -23,18 +22,18 @@ import java.util.UUID;
 
 
 public class addTicketScreen extends JPanel {
-    GridBagLayout gridBagLayout = new GridBagLayout();
-    GridBagConstraints gbc = new GridBagConstraints();
-
     private final JComboBox<Person> dropdownPersons;
     private final JComboBox<TicketType> dropdownType;
     private final JButton doneButton = new JButton("Done");
     private final JButton backButton = new JButton("Back");
-    private Person payer;
     private final JTextField textBoxToEnterName;
     private final JTextField priceField;
     private final JCheckBox checkboxEqual = new JCheckBox("split equal");
-    private final ArrayList<HashMap<JCheckBox,HashMap<UUID, Double>>> checklist = new ArrayList<>();
+    private final ArrayList<HashMap<JCheckBox, HashMap<UUID, Double>>> checklist = new ArrayList<>();
+    GridBagLayout gridBagLayout = new GridBagLayout();
+    GridBagConstraints gbc = new GridBagConstraints();
+    HashMap<UUID, JTextField> toPayList = new HashMap<>();
+    private Person payer;
     private ItemListener checkboxEqualListener;
     private ItemListener checkboxPersonListener;
     private final JLabel nameLabel = new JLabel("Naam");
@@ -43,69 +42,69 @@ public class addTicketScreen extends JPanel {
     private final JLabel toPayLabel = new JLabel("Bedrag");
 
 
-
-    HashMap<UUID,JTextField> toPayList= new HashMap<>();
-
-
-
-    public addTicketScreen(){ // add all button's, textfields, checkboxes, dropdown's and listeners
+    public addTicketScreen() { // add all button's, textfields, checkboxes, dropdown's and listeners
         setcheckboxPersonListener();
         this.setLayout(gridBagLayout);
-        gbc.ipadx = 1; gbc.ipady = 0;
+        gbc.ipadx = 1;
+        gbc.ipady = 0;
 
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
-        this.add(nameLabel,gbc);
+        this.add(nameLabel, gbc);
 
-        gbc.gridx = 1; gbc.gridy = 0;
-        gbc.insets = new Insets(0,0,0,0);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 0, 0);
 
         // add textfield for name
         textBoxToEnterName = new JTextField(20);
         this.add(textBoxToEnterName, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1;
-        this.add(typeLabel,gbc);
-        gbc.gridx = 1; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(typeLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
         // Add dropdown Type
         TicketType[] typeList = TicketType.values();
         dropdownType = new JComboBox<>(typeList);
-        this.add(dropdownType,gbc);
+        this.add(dropdownType, gbc);
 
 
-
-        gbc.gridx = 0; gbc.gridy = 2;
-        this.add(payerLabel,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.add(payerLabel, gbc);
         //Persons
-        PersonDatabase db = PersonDatabase.getInstance();
-        Person[] personList = db.PersonList().toArray(new Person[0]);
+        Person[] personList = PersonController.getInstance().personArray();
 
         // create dropdown
         dropdownPersons = new JComboBox<>(personList);
         dropdownPersons.setVisible(true);
-        gbc.gridx = 1; gbc.gridy = 2;
-        this.add(dropdownPersons,gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        this.add(dropdownPersons, gbc);
 
 
-
-
-        gbc.gridx = 0; gbc.gridy = 3;
-        this.add(toPayLabel,gbc);
-        gbc.gridx = 1; gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.add(toPayLabel, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
         priceField = new JTextField(10);
-        this.add(priceField,gbc);
+        this.add(priceField, gbc);
 
         //this.updatePersons();
         // create HashMap for checkboxes for every Person
 
-        for (Person p : personList){
+        for (Person p : personList) {
 
             double toPay = 0.0;
             HashMap<UUID, Double> hm = new HashMap<>();
-            hm.put(p.getId(),toPay);
-            HashMap<JCheckBox, HashMap<UUID,Double>> hmLong = new HashMap<>();
-            hmLong.put(new JCheckBox(p.getName()),hm);
+            hm.put(p.getId(), toPay);
+            HashMap<JCheckBox, HashMap<UUID, Double>> hmLong = new HashMap<>();
+            hmLong.put(new JCheckBox(p.getName()), hm);
             checklist.add(hmLong);
 
         }
@@ -114,14 +113,14 @@ public class addTicketScreen extends JPanel {
         int teller = 4;
         gbc.gridx = 0;
 
-        for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist){
-            for ( JCheckBox checkboxPerson : hmjcb.keySet() ) {
+        for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
+            for (JCheckBox checkboxPerson : hmjcb.keySet()) {
                 gbc.gridy = teller;
-                this.add(checkboxPerson,gbc);
+                this.add(checkboxPerson, gbc);
                 checkboxPerson.setSelected(true);
                 UUID key2 = hmjcb.get(checkboxPerson).keySet().iterator().next();
-                toPayList.put(key2,new JTextField(10));
-                teller+=1;
+                toPayList.put(key2, new JTextField(10));
+                teller += 1;
             }
         }
 
@@ -129,31 +128,35 @@ public class addTicketScreen extends JPanel {
         // add all the textboxes to Jpanel and set them to not visual
         teller = 4;
         gbc.gridx = 1;
-        for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist) {
+        for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
             gbc.gridy = teller;
             JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
             checkboxPerson.addItemListener(checkboxPersonListener);
             UUID key2 = hmjcb.get(checkboxPerson).keySet().iterator().next();
-            this.add(toPayList.get(key2),gbc);
+            this.add(toPayList.get(key2), gbc);
             toPayList.get(key2).setVisible(false);
-            teller+=1;
+            teller += 1;
         }
 
-        gbc.gridx = 1; gbc.gridy = teller+1;
+        gbc.gridx = 1;
+        gbc.gridy = teller + 1;
         setcheckboxEqualListener();
         checkboxEqual.addItemListener(checkboxEqualListener);
-        this.add(checkboxEqual,gbc);
+        this.add(checkboxEqual, gbc);
 
-        gbc.gridx = 1; gbc.gridy = teller+2;
+        gbc.gridx = 1;
+        gbc.gridy = teller + 2;
         gbc.ipady = 10;
-        this.add(new JLabel(""),gbc);
+        this.add(new JLabel(""), gbc);
         gbc.ipady = 1;
 
-        gbc.gridx = 0; gbc.gridy = teller+3;
-        this.add(backButton,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = teller + 3;
+        this.add(backButton, gbc);
 
-        gbc.gridx = 1; gbc.gridy = teller+3;
-        this.add(doneButton,gbc);
+        gbc.gridx = 1;
+        gbc.gridy = teller + 3;
+        this.add(doneButton, gbc);
 
         checkboxEqual.setSelected(true);
         addDoneButtonActionListener();
@@ -164,7 +167,7 @@ public class addTicketScreen extends JPanel {
     }
 
     private void addBackButtonActionListener() {
-        this.backButton.addActionListener(listener ->{
+        this.backButton.addActionListener(listener -> {
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
             viewFrame.update_homescreen();
@@ -204,9 +207,9 @@ public class addTicketScreen extends JPanel {
                 JCheckBox key = hmjcb.keySet().iterator().next();
                 if (key.isSelected()) {
                     UUID key2 = hmjcb.get(key).keySet().iterator().next();
-                    System.out.println("doet moee" + PersonDatabase.getInstance().getEntry(key2));
-                    Person p = PersonDatabase.getInstance().getEntry(key2);
-                    if(!checkboxEqual.isSelected()) {
+                    System.out.println("doet moee" + PersonController.getInstance().getPerson(key2));
+                    Person p = PersonController.getInstance().getPerson(key2);
+                    if (!checkboxEqual.isSelected()) {
                         double price = Double.parseDouble(toPayList.get(key2).getText());
                         System.out.println(p + " moet " + price + " betalen");
                         newticket.addOws(p.getId(), price);
@@ -220,9 +223,9 @@ public class addTicketScreen extends JPanel {
 
             newticket.setPaid_amount(totalAmount);
             newticket.setPayerid(payer.getId());
-            TicketController.getInstance(TicketDatabase.getInstance()).addTicket(newticket);
+            TicketController.getInstance().addTicket(newticket);
             System.out.println(newticket);
-            if(checkboxEqual.isSelected()){
+            if (checkboxEqual.isSelected()) {
                 newticket.splitEqual();
             }
             ViewFrame viewFrame = ViewFrame.getInstance();
@@ -245,84 +248,40 @@ public class addTicketScreen extends JPanel {
             toPayLabel.setForeground(Color.BLACK);
             }
     }
-/*
-    public void updatePersons(){ // updates all fields connected to Person and PersonDatabase
-        PersonDatabase db = PersonDatabase.getInstance();
-        Person[] personList = db.PersonList().toArray(new Person[0]);
-
-        // create dropdown
-        dropdownPersons = new JComboBox<>(personList);
-        dropdownPersons.setVisible(true);
-        this.add(dropdownPersons,gbc);
-
-        // create HashMap for checkboxes for every Person
-        for (Person p : personList){
-            double toPay = 0.0;
-            HashMap<UUID, Double> hm = new HashMap<>();
-            hm.put(p.getId(),toPay);
-            HashMap<JCheckBox, HashMap<UUID,Double>> hmLong = new HashMap<>();
-            hmLong.put(new JCheckBox(p.getName()),hm);
-            checklist.add(hmLong);
-        }
-
-        // create Hashmap for all textboxes for every Person
-        for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist){
-            for ( JCheckBox key : hmjcb.keySet() ) {
-                this.add(key);
-                key.setSelected(true);
-                UUID key2 = hmjcb.get(key).keySet().iterator().next();
-                toPayList.put(key2,new JTextField(25));
-            }
-        }
-
-
-        // add all the textboxes to Jpanel and set them to not visual
-        for (HashMap<JCheckBox, HashMap<UUID,Double>> hmjcb : checklist) {
-            JCheckBox key = hmjcb.keySet().iterator().next();
-            UUID key2 = hmjcb.get(key).keySet().iterator().next();
-            this.add(toPayList.get(key2));
-            toPayList.get(key2).setVisible(false);
-        }
-    }
-
-*/
-
 
 
     // add checboxEqualListener
-    public void setcheckboxEqualListener(){
+    public void setcheckboxEqualListener() {
         checkboxEqualListener = e -> {
-           for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
+            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
                 JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
                 UUID pId = hmjcb.get(checkboxPerson).keySet().iterator().next();
-                System.out.println(PersonDatabase.getInstance().getEntry(pId));
+                System.out.println(PersonController.getInstance().getPerson(pId));
                 System.out.println(checkboxPerson.isSelected());
-                if (!checkboxEqual.isSelected()){
+                if (!checkboxEqual.isSelected()) {
                     toPayList.get(pId).setVisible(checkboxPerson.isSelected());
                     System.out.println("setvisible key.isselected");
-                }
-                else {
+                } else {
                     toPayList.get(pId).setVisible(false);
                     System.out.println("setvisible false");
                 }
             }
-           this.revalidate();
-           this.repaint();
+            this.revalidate();
+            this.repaint();
         };
     }
 
-    public void setcheckboxPersonListener(){
+    public void setcheckboxPersonListener() {
         checkboxPersonListener = e -> {
             for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
                 JCheckBox checkboxPerson = hmjcb.keySet().iterator().next();
                 UUID pId = hmjcb.get(checkboxPerson).keySet().iterator().next();
-                System.out.println(PersonDatabase.getInstance().getEntry(pId));
+                System.out.println(PersonController.getInstance().getPerson(pId));
                 System.out.println(checkboxPerson.isSelected());
-                if (!checkboxEqual.isSelected()){
+                if (!checkboxEqual.isSelected()) {
                     toPayList.get(pId).setVisible(checkboxPerson.isSelected());
                     System.out.println("setvisible key.isselected");
-                }
-                else {
+                } else {
                     toPayList.get(pId).setVisible(false);
                     System.out.println("setvisible false");
                 }

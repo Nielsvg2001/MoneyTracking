@@ -2,9 +2,6 @@ package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
-import be.uantwerpen.fti.Controller.TicketController;
-import be.uantwerpen.fti.Database.PersonDatabase;
-import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Scheme;
 
@@ -12,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class addPersonScreen extends JPanel {
-    PersonController personController = PersonController.getInstance(PersonDatabase.getInstance());
+    PersonController personController = PersonController.getInstance();
 
     JButton doneButton = new JButton("Done");
     JButton backButton = new JButton("Back");
@@ -30,34 +27,47 @@ public class addPersonScreen extends JPanel {
     private final JLabel phoneLabel =new JLabel("Phone:");
 
 
-    public addPersonScreen(){
+    public addPersonScreen() {
         this.setLayout(gridBagLayout);
-        gbc.ipadx = 1; gbc.ipady = 1;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
 
-        gbc.gridwidth = 3; gbc.gridx = 1; gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         this.add(personLabel, gbc);
 
         gbc.gridwidth = 1;
 
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         this.add(nameLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
         this.add(textBoxToEnterName, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         this.add(mailLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 2;
         this.add(textBoxToEnterEmail, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         this.add(phoneLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 3;
+        gbc.gridx = 2;
+        gbc.gridy = 3;
         this.add(textBoxToEnterPhone, gbc);
 
-        gbc.gridwidth = 3; gbc.gridx = 2; gbc.gridy = 4;
+        gbc.gridwidth = 3;
+        gbc.gridx = 2;
+        gbc.gridy = 4;
         this.add(doneButton, gbc);
 
-        gbc.gridwidth = 1; gbc.gridx = 0; gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         this.add(backButton, gbc);
         this.setBackground(Color.WHITE);
 
@@ -73,11 +83,10 @@ public class addPersonScreen extends JPanel {
     }
 
 
-    public void doneButtonButtonActionListener()
-    {
+    public void doneButtonButtonActionListener() {
         this.doneButton.addActionListener(listener ->
         {
-            if(!textBoxToEnterEmail.getText().isEmpty() & !textBoxToEnterPhone.getText().isEmpty())
+            if (!textBoxToEnterEmail.getText().isEmpty() & !textBoxToEnterPhone.getText().isEmpty())
                 personController.addPerson(new Person(textBoxToEnterName.getText(), textBoxToEnterEmail.getText(), textBoxToEnterPhone.getText()));
             else if (!textBoxToEnterName.getText().isEmpty())
                 personController.addPerson(new Person(textBoxToEnterName.getText()));

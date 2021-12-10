@@ -1,7 +1,6 @@
 package be.uantwerpen.fti.Database;
 
 import be.uantwerpen.fti.Person;
-import be.uantwerpen.fti.Ticket.Ticket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,12 +44,12 @@ public class PersonDatabase extends Database {
         support.firePropertyChange("remove", id, "niks");
     }
 
-    public ArrayList<Person> PersonList() {
-        ArrayList<Person> PersonList = new ArrayList<>();
+    public Person[] PersonArray() {
+        ArrayList<Person> personArrayList = new ArrayList<>();
         for (UUID key : db.keySet()) {
-            PersonList.add(db.get(key));
+            personArrayList.add(db.get(key));
         }
-        return PersonList;
+        return personArrayList.toArray(new Person[0]);
     }
 
 }

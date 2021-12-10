@@ -3,19 +3,17 @@ package be.uantwerpen.fti.Controller;
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Ticket.Ticket;
 
-import java.util.ArrayList;
-
 public class TicketController {
     private static TicketController single_instance = null;
-    private final TicketDatabase ticketDatabase;
+    private final TicketDatabase ticketDatabase = TicketDatabase.getInstance();
 
-    private TicketController(TicketDatabase ticketDatabase) {
-        this.ticketDatabase = ticketDatabase;
+    private TicketController() {
+
     }
 
-    public static TicketController getInstance(TicketDatabase ticketDatabase) {
+    public static TicketController getInstance() {
         if (single_instance == null)
-            single_instance = new TicketController(ticketDatabase) {
+            single_instance = new TicketController() {
             };
 
         return single_instance;
@@ -29,7 +27,7 @@ public class TicketController {
         ticketDatabase.removeEntry(ticket);
     }
 
-    public ArrayList<Ticket> ticketList() {
-        return ticketDatabase.ticketList();
+    public Ticket[] ticketArray() {
+        return ticketDatabase.ticketArray();
     }
 }
