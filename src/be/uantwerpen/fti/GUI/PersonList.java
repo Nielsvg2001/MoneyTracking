@@ -1,6 +1,5 @@
 package be.uantwerpen.fti.GUI;
 
-import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Person;
 

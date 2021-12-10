@@ -1,7 +1,6 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
-import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Controller.PersonController;
 
 import javax.swing.*;
@@ -17,6 +16,7 @@ public class ViewFrame extends JFrame {
     public addTicketScreen addTicketScreen = new addTicketScreen();
     public PersonList personList = new PersonList();
     public addPersonScreen addPersonScreen = new addPersonScreen();
+    private final EditScreen editScreen = EditScreen.getInstance();
     CardLayout cardLayout = new CardLayout();
 
     private ViewFrame() {
@@ -91,10 +91,4 @@ public class ViewFrame extends JFrame {
             }
         }
     }
-/*
-    public static void main(String[] args) {
-        ViewFrame viewFrame = ViewFrame.getInstance();
-    }
-
- */
 }

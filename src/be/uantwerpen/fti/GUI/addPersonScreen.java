@@ -107,7 +107,6 @@ public class addPersonScreen extends JPanel {
     }
 
     public void updateMode(){
-        System.out.println("updateModeAddpersonScreen");
         if(ColorScheme.getInstance().getMode() == Scheme.Dark){
             personLabel.setForeground(Color.WHITE);
             nameLabel.setForeground(Color.WHITE);

@@ -5,10 +5,33 @@ import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.GUI.ViewFrame;
+import be.uantwerpen.fti.Ticket.Ticket;
+import be.uantwerpen.fti.Ticket.TicketType;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        /*
+        TO DO:
+            - Observer voor calculate
+            - calulate alle personen weergeven
+            - UnitTest
+            - andere test
+            -schema's
+        Bugs:
+            - dropdowns groot genoeg maken zodat de naam erinpast
+            - nieuwe persoon toevoegen als maar 2 invullen, gebeurt er iets raar
+            - bij edit persoon naam wegdoen, mag niet
+            - add ticket lege velden geven errors
+            - add ticket som controleren als niet equal split
+            - als persoon verwijdert wordt, checken wat betaalt moet woren enzo
+            - als persoon verwijdert, blijft deze nog staan bij de eerste keer bij ticket toevoegen
+        extra:
+            - kleur lijsten
+
+         */
+
         // Init
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
@@ -17,12 +40,11 @@ public class Main {
         Person niels = new Person("Niels", "niels@uantwerpen.be", "0453503949");
         Person thijs = new Person("Thijs", "thijs@uantwerpen.be", "0487529926");
         Person maxim = new Person("Maxim", "maxim@uantwerpen.be", "0485930030");
-
         personController.addPerson(niels);
         personController.addPerson(thijs);
         personController.addPerson(maxim);
 
-        /*
+
 
         // Ticket 1
         Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
@@ -48,8 +70,6 @@ public class Main {
         ticket3.addOws(niels.getId());
         ticket3.addOws(thijs.getId());
         ticket3.splitEqual();
-
-        */
 
         ViewFrame viewFrame = ViewFrame.getInstance();
     }

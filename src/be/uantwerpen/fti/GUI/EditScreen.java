@@ -2,7 +2,6 @@ package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
-import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Scheme;
 
@@ -35,8 +34,6 @@ public class EditScreen extends JPanel {
     }
 
     private EditScreen() {
-        System.out.println("personp::");
-        System.out.println(person);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         this.setLayout(gridBagLayout);
@@ -76,16 +73,13 @@ public class EditScreen extends JPanel {
 
         gbc.gridx = 2; gbc.gridy = 5;
         this.add(doneButton,gbc);
-        PersonList.getInstance().update_screen();
 
         this.setBackground(Color.WHITE);
 
     }
 
     public void setPerson(Person p){
-
         this.person = p;
-
     }
 
     public void updatescreen(){
@@ -102,7 +96,6 @@ public class EditScreen extends JPanel {
     }
 
     public void updateMode(){
-        System.out.println("updateModeAddpersonScreen");
         if(ColorScheme.getInstance().getMode() == Scheme.Dark){
             personLabel.setForeground(Color.WHITE);
             nameLabel.setForeground(Color.WHITE);
@@ -120,8 +113,7 @@ public class EditScreen extends JPanel {
     public void addremoveButtonListener(){
         this.removeButton.addActionListener(listener ->
         {
-            System.out.println("hier dit nog wegdoen persondatabase!!!!!");
-            PersonController.getInstance(PersonDatabase.getInstance()).removePerson(person);
+            PersonController.getInstance().removePerson(person);
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("PersonList");
             viewFrame.update_personscreen();
@@ -139,8 +131,6 @@ public class EditScreen extends JPanel {
     public void adddoneButtonListener(){
         this.doneButton.addActionListener(listener ->
         {
-            System.out.println("hier nog weg Database!!!!!!!!!!!!!");
-
             boolean edited = false;
             if(textBoxToEnterName.getText()!= null){
                 person.setName(textBoxToEnterName.getText());
@@ -155,10 +145,11 @@ public class EditScreen extends JPanel {
                 edited = true;
             }
             if (edited){
-            PersonController personController = PersonController.getInstance(PersonDatabase.getInstance());
+            PersonController personController = PersonController.getInstance();
             personController.removePerson(person);
             personController.addPerson(person);
             }
+            ViewFrame.getInstance().update_personscreen();
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("PersonList");
         });

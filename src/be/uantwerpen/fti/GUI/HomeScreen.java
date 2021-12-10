@@ -37,7 +37,7 @@ public class HomeScreen extends JPanel {
         addviewPersonListButtonActionListener();
         update_screen();
         this.add(scrollPane);
-        personLabel = new JLabel(PersonDatabase.getInstance().getEntry(currentUser).getName());
+        personLabel = new JLabel(PersonController.getInstance().getPerson(currentUser).getName());
         this.add(personLabel);
         this.add(list);
 
