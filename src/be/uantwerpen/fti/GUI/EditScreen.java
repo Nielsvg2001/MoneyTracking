@@ -7,6 +7,7 @@ import be.uantwerpen.fti.Scheme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class EditScreen extends JPanel {
 
@@ -24,6 +25,7 @@ public class EditScreen extends JPanel {
     private final JLabel nameLabel = new JLabel("Name:");
     private final JLabel mailLabel = new JLabel("Email:");
     private final JLabel phoneLabel =new JLabel("Phone:");
+    private final JLabel errorLabel = new JLabel("error");
 
 
     public static EditScreen getInstance() {
@@ -74,6 +76,14 @@ public class EditScreen extends JPanel {
         gbc.gridx = 2; gbc.gridy = 5;
         this.add(doneButton,gbc);
 
+        gbc.gridx = 2;
+        gbc.gridy = 6;
+        this.add(errorLabel,gbc);
+        errorLabel.setForeground(Color.black);
+        errorLabel.setBackground(Color.PINK);
+        errorLabel.setOpaque(true);
+        errorLabel.setVisible(false);
+
         this.setBackground(Color.WHITE);
 
     }
@@ -93,6 +103,7 @@ public class EditScreen extends JPanel {
                 textBoxToEnterEmail.setText(person.getMail());
             }
         }
+        errorLabel.setVisible(false);
     }
 
     public void updateMode(){
@@ -132,26 +143,26 @@ public class EditScreen extends JPanel {
         this.doneButton.addActionListener(listener ->
         {
             boolean edited = false;
-            if(textBoxToEnterName.getText()!= null){
+            if(!Objects.equals(textBoxToEnterName.getText(), "")) {
                 person.setName(textBoxToEnterName.getText());
-                edited = true;
+
+                if (textBoxToEnterEmail.getText() != null) {
+                    person.setMail(textBoxToEnterEmail.getText());
+                }
+                if (textBoxToEnterPhone.getText() != null) {
+                    person.setGSMNummer(textBoxToEnterPhone.getText());
+                }
+                PersonController personController = PersonController.getInstance();
+                personController.removePerson(person);
+                personController.addPerson(person);
+                ViewFrame.getInstance().update_personscreen();
+                ViewFrame viewFrame = ViewFrame.getInstance();
+                viewFrame.showScreen("PersonList");
             }
-            if(textBoxToEnterEmail.getText()!= null){
-                person.setMail(textBoxToEnterEmail.getText());
-                edited = true;
+            else{
+                errorLabel.setText("name cannot be empty");
+                errorLabel.setVisible(true);
             }
-            if(textBoxToEnterPhone.getText()!= null){
-                person.setGSMNummer(textBoxToEnterPhone.getText());
-                edited = true;
-            }
-            if (edited){
-            PersonController personController = PersonController.getInstance();
-            personController.removePerson(person);
-            personController.addPerson(person);
-            }
-            ViewFrame.getInstance().update_personscreen();
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("PersonList");
         });
     }
 

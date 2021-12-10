@@ -18,7 +18,7 @@ public class Main {
             - calulate alle personen weergeven
             - UnitTest
             - andere test
-            -schema's
+            - schema's
         Bugs:
             - dropdowns groot genoeg maken zodat de naam erinpast
             - nieuwe persoon toevoegen als maar 2 invullen, gebeurt er iets raar
