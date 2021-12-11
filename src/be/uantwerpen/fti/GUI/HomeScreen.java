@@ -10,6 +10,7 @@ import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ public class HomeScreen extends JPanel {
     JButton viewPersonList = new JButton("PersonList");
     private final JComboBox<Scheme> dropdownMode;
     private final JLabel personLabel;
+    private final JButton clearButton = new JButton("Clear");
 
     JScrollPane scrollPane = new JScrollPane();
     JList<Ticket> ticketJList;
@@ -46,6 +48,8 @@ public class HomeScreen extends JPanel {
         this.add(dropdownMode);
         dropdownMode.setSelectedItem(Scheme.Light);
         addModeActionListener();
+        this.add(clearButton);
+        addClearButtonListener();
 
         this.setBackground(Color.WHITE);
 
@@ -62,12 +66,17 @@ public class HomeScreen extends JPanel {
     public void addCalculateButtonButtonActionListener() {
         this.calculateButton.addActionListener(listener ->
         {
-            Calculate calculate = new Calculate();
-            defaultListModel.clear();
-            HashMap<UUID, Double> person_total = calculate.person_total(currentUser);
-            for (UUID uuid : person_total.keySet()) {
-                Person person = PersonController.getInstance().getPerson(uuid);
-                defaultListModel.addElement(person.getName() + ": " + person_total.get(uuid));
+            if (TicketController.getInstance().ticketArray().length !=0) {
+                Calculate calculate = new Calculate();
+                defaultListModel.clear();
+                HashMap<UUID, Double> person_total = calculate.person_total(currentUser);
+                for (UUID uuid : person_total.keySet()) {
+                    Person person = PersonController.getInstance().getPerson(uuid);
+                    defaultListModel.addElement(person.getName() + ": " + person_total.get(uuid));
+                }
+            }
+            else{
+                defaultListModel.clear();
             }
         });
     }
@@ -104,6 +113,18 @@ public class HomeScreen extends JPanel {
         {
             ColorScheme.getInstance().setMode((Scheme) dropdownMode.getSelectedItem());
             ViewFrame.getInstance().update_Mode();
+        });
+    }
+
+    public void addClearButtonListener(){
+        clearButton.addActionListener(listener ->
+        {
+            TicketController ticketController = TicketController.getInstance();
+            Ticket[] removeArray = ticketController.ticketArray();
+            for (Ticket ticket : removeArray){
+                ticketController.removeTicket(ticket);
+            }
+            update_screen();
         });
     }
 }

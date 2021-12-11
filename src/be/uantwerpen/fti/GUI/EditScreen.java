@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.Calculate;
 import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Person;
@@ -7,7 +8,9 @@ import be.uantwerpen.fti.Scheme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public class EditScreen extends JPanel {
 
@@ -76,8 +79,9 @@ public class EditScreen extends JPanel {
         gbc.gridx = 2; gbc.gridy = 5;
         this.add(doneButton,gbc);
 
-        gbc.gridx = 2;
+        gbc.gridx = 0;
         gbc.gridy = 6;
+        gbc.gridwidth = 3;
         this.add(errorLabel,gbc);
         errorLabel.setForeground(Color.black);
         errorLabel.setBackground(Color.PINK);
@@ -124,10 +128,28 @@ public class EditScreen extends JPanel {
     public void addremoveButtonListener(){
         this.removeButton.addActionListener(listener ->
         {
-            PersonController.getInstance().removePerson(person);
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("PersonList");
-            viewFrame.update_personscreen();
+            boolean remove = true;
+            HashMap<UUID, Double> total = new Calculate().person_total(person.getId());
+            if(total!= null) {
+                for (UUID uuid1 : total.keySet())
+                    if (total.get(uuid1) != 0) {
+                        remove = false;
+                        break;
+                    }
+            }
+
+            if(remove) {
+                PersonController.getInstance().removePerson(person);
+                ViewFrame viewFrame = ViewFrame.getInstance();
+                viewFrame.update_personscreen();
+                viewFrame.showScreen("PersonList");
+
+            }
+            else{
+                errorLabel.setText("kan niet removed worden, er staat nog een bedrag open");
+                errorLabel.setVisible(true);
+                System.out.println("kan niet removed worden, er staat nog een bedrag open");
+            }
         });
     }
 

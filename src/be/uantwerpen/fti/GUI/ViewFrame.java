@@ -18,6 +18,8 @@ public class ViewFrame extends JFrame {
     public addPersonScreen addPersonScreen = new addPersonScreen();
     private final EditScreen editScreen = EditScreen.getInstance();
     CardLayout cardLayout = new CardLayout();
+    private final Color colorLight = Color.WHITE;
+    private final Color colorDark = Color.DARK_GRAY;
 
     private ViewFrame() {
         panelCont.setLayout(cardLayout);
@@ -47,19 +49,37 @@ public class ViewFrame extends JFrame {
 
     public void update_homescreen() {
         homeScreen.update_screen();
-        panelCont.remove(addTicketScreen);
-        addTicketScreen = new addTicketScreen();
-        panelCont.add(addTicketScreen, "addTicketScreen");
+        update_addTicketScreen();
     }
 
     public void update_personscreen() {
         personList.update_screen();
         addPersonScreen.reset();
+        update_addTicketScreen();
+    }
+
+    public void update_addTicketScreen(){
+        panelCont.remove(addTicketScreen);
+        addTicketScreen = new addTicketScreen();
+        panelCont.add(addTicketScreen, "addTicketScreen");
+        addTicketScreen.updateMode();
+        switch (ColorScheme.getInstance().getMode()){
+            case Light :{
+                this.addTicketScreen.setBackground(colorLight);
+                break;
+            }
+            case Color: {
+                this.addTicketScreen.setBackground(Color.PINK);
+                break;
+            }
+            case Dark: {
+                this.addTicketScreen.setBackground(colorDark);
+                break;
+            }
+        }
     }
 
     public void update_Mode(){
-        Color colorLight = Color.WHITE;
-        Color colorDark = Color.DARK_GRAY;
         addPersonScreen.updateMode();
         addTicketScreen.updateMode();
         editScreen.updateMode();
@@ -78,7 +98,7 @@ public class ViewFrame extends JFrame {
                 this.addTicketScreen.setBackground(Color.PINK);
                 this.editScreen.setBackground(Color.RED);
                 this.homeScreen.setBackground(Color.GREEN);
-                this.homeScreen.setBackground(Color.cyan);
+                this.personList.setBackground(Color.cyan);
                 break;
             }
             case Dark: {

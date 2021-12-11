@@ -15,20 +15,16 @@ public class Main {
         /*
         TO DO:
             - Observer voor calculate
-            - calulate alle personen weergeven
+            - calulate alle personen weergeven -> voor test te maken ook
             - UnitTest
             - andere test
             - schema's
         Bugs:
-            - dropdowns groot genoeg maken zodat de naam erinpast
 
-            - als persoon verwijdert wordt, checken wat betaalt moet woren enzo
-            - als persoon verwijdert, achtergrondkleur van addticket verandert soms
-            - als persoon verwijdert, blijft deze nog staan bij de eerste keer bij ticket toevoegen
         extra:
             - kleur lijsten
             - vaste groote voor addticket velden + jlabels
-
+            - dropdowns groot genoeg maken zodat de naam erinpast
          */
 
         // Init

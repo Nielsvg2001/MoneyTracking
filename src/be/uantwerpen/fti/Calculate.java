@@ -85,11 +85,15 @@ public class Calculate {
         HashMap<UUID, HashMap<UUID, Double>> total = calculate_total();
 
         System.out.println(personController.getPerson(personuuid).getName());
-        for (UUID uuid1 : total.get(personuuid).keySet())
-            System.out.println(personController.getPerson(uuid1).getName() + " -> " + total.get(personuuid).get(uuid1));
-        System.out.println();
-        return total.get(personuuid);
-
+        if (total.get(personuuid)!= null) {
+            for (UUID uuid1 : total.get(personuuid).keySet())
+                System.out.println(personController.getPerson(uuid1).getName() + " -> " + total.get(personuuid).get(uuid1));
+            System.out.println();
+            return total.get(personuuid);
+        }
+        else{
+            return null;
+            }
     }
 
 }
