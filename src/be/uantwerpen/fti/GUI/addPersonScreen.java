@@ -86,13 +86,17 @@ public class addPersonScreen extends JPanel {
     public void doneButtonButtonActionListener() {
         this.doneButton.addActionListener(listener ->
         {
-            if (!textBoxToEnterEmail.getText().isEmpty() & !textBoxToEnterPhone.getText().isEmpty())
-                personController.addPerson(new Person(textBoxToEnterName.getText(), textBoxToEnterEmail.getText(), textBoxToEnterPhone.getText()));
-            else if (!textBoxToEnterName.getText().isEmpty())
-                personController.addPerson(new Person(textBoxToEnterName.getText()));
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("PersonList");
-            viewFrame.update_personscreen();
+            if (!textBoxToEnterName.getText().isEmpty()) {
+                Person p = new Person(textBoxToEnterName.getText());
+                if (!textBoxToEnterEmail.getText().isEmpty())
+                    p.setMail(textBoxToEnterEmail.getText());
+                if (!textBoxToEnterPhone.getText().isEmpty())
+                    p.setGSMNummer(textBoxToEnterPhone.getText());
+                personController.addPerson(p);
+                ViewFrame viewFrame = ViewFrame.getInstance();
+                viewFrame.showScreen("PersonList");
+                viewFrame.update_personscreen();
+            }
         });
     }
 

@@ -37,6 +37,7 @@ public class addTicketScreen extends JPanel {
     private final JLabel typeLabel = new JLabel("Type");
     private final JLabel payerLabel = new JLabel("Payer");
     private final JLabel toPayLabel = new JLabel("Bedrag");
+    private final JLabel errorLabel = new JLabel("error");
 
 
     public addTicketScreen() { // add all button's, textfields, checkboxes, dropdown's and listeners
@@ -155,6 +156,14 @@ public class addTicketScreen extends JPanel {
         gbc.gridy = teller + 3;
         this.add(doneButton, gbc);
 
+        gbc.gridx = 1;
+        gbc.gridy = teller+4;
+        this.add(errorLabel,gbc);
+        errorLabel.setForeground(Color.black);
+        errorLabel.setBackground(Color.PINK);
+        errorLabel.setOpaque(true);
+        errorLabel.setVisible(false);
+
         checkboxEqual.setSelected(true);
         addDoneButtonActionListener();
         addBackButtonActionListener();
@@ -175,46 +184,88 @@ public class addTicketScreen extends JPanel {
     {
         this.doneButton.addActionListener(listener ->
         {
-
-            String name = textBoxToEnterName.getText();
-            TicketFactory ticketFactory = new TicketFactory();
-            Ticket newticket = ticketFactory.getTicket((TicketType) (Objects.requireNonNull(dropdownType.getSelectedItem())), name);
-            payer = (Person) dropdownPersons.getSelectedItem();
-            Double totalAmount = null;
-            try {
-                String priceString = priceField.getText();
-                priceString = priceString.replace(',', '.');
-                totalAmount = Double.parseDouble(priceString);
-            } catch (Exception e) {
-                e.printStackTrace();
+            boolean error = false;
+            double totalAmountCheck= 0;
+            if (Objects.equals(textBoxToEnterName.getText(), "")){
+                errorLabel.setText("Naam cannot be empty");
+                errorLabel.setVisible(true);
+                error = true;
             }
+            else if (Objects.equals(priceField.getText(), "")){
+                errorLabel.setText("Bedrag mag niet leeg zijn");
+                errorLabel.setVisible(true);
+                error = true;
+            }
+            else if (! priceField.getText().matches("[0-9]+(.|,)?[0-9]+")){
+                errorLabel.setText("Bedrag moet een juist bedrag zijn");
+                errorLabel.setVisible(true);
+                error = true;
+            }
+            else{
+                String name = textBoxToEnterName.getText();
+                TicketFactory ticketFactory = new TicketFactory();
+                Ticket newticket = ticketFactory.getTicket((TicketType) (Objects.requireNonNull(dropdownType.getSelectedItem())), name);
+                payer = (Person) dropdownPersons.getSelectedItem();
+                double totalAmount = -1000.0;
+                try {
+                    String priceString = priceField.getText();
+                    priceString = priceString.replace(',', '.');
+                    totalAmount = Double.parseDouble(priceString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
-                JCheckBox key = hmjcb.keySet().iterator().next();
-                if (key.isSelected()) {
-                    UUID key2 = hmjcb.get(key).keySet().iterator().next();
-                    Person p = PersonController.getInstance().getPerson(key2);
-                    if (!checkboxEqual.isSelected()) {
-                        double price = Double.parseDouble(toPayList.get(key2).getText());
-                        System.out.println(p + " moet " + price + " betalen");
-                        newticket.addOws(p.getId(), price);
-                    }
-                    else{
-                        newticket.addOws(p.getId());
+                for (HashMap<JCheckBox, HashMap<UUID, Double>> hmjcb : checklist) {
+                    JCheckBox key = hmjcb.keySet().iterator().next();
+                    if (key.isSelected()) {
+                        UUID key2 = hmjcb.get(key).keySet().iterator().next();
+                        Person p = PersonController.getInstance().getPerson(key2);
+                        if (!checkboxEqual.isSelected()) {
+                            if(! toPayList.get(key2).getText().matches("[0-9]+(.|,)?[0-9]+")){
+                                errorLabel.setText("te betalen veld moet een juist bedrag zijn");
+                                errorLabel.setVisible(true);
+                                error = true;
+                                System.out.println("error te betalen veld moet een juist bedrag zijn");
+                                break;
+                            }
+                            else {
+                                double price = Double.parseDouble(toPayList.get(key2).getText().replace(',', '.'));
+                                totalAmountCheck += price;
+                                System.out.println(totalAmountCheck);
+                                System.out.println(p + " moet " + price + " betalen");
+                                newticket.addOws(p.getId(), price);
+                            }
+                        }
+                        else{
+                            newticket.addOws(p.getId());
+                        }
                     }
                 }
-            }
 
 
-            newticket.setPaid_amount(totalAmount);
-            newticket.setPayerid(payer.getId());
-            TicketController.getInstance().addTicket(newticket);
-            if (checkboxEqual.isSelected()) {
-                newticket.splitEqual();
+                if (totalAmountCheck != totalAmount && !checkboxEqual.isSelected() && !error){
+                    System.out.println(totalAmount);
+                    System.out.println(totalAmountCheck);
+                    errorLabel.setText("Het totaal bedrag is niet juist");
+                    errorLabel.setVisible(true);
+                    error = true;
+                    System.out.println("error :Het totaal bedrag komt niet overeen met de deelbedragen");
+                }
+                
+
+                if (!error) {
+                    System.out.println("geen error");
+                    newticket.setPaid_amount(totalAmount);
+                    newticket.setPayerid(payer.getId());
+                    TicketController.getInstance().addTicket(newticket);
+                    if (checkboxEqual.isSelected()) {
+                        newticket.splitEqual();
+                    }
+                    ViewFrame viewFrame = ViewFrame.getInstance();
+                    viewFrame.showScreen("homeScreen");
+                    viewFrame.update_homescreen();
+                }
             }
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("homeScreen");
-            viewFrame.update_homescreen();
         });
     }
 

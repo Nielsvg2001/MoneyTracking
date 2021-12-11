@@ -21,14 +21,13 @@ public class Main {
             - schema's
         Bugs:
             - dropdowns groot genoeg maken zodat de naam erinpast
-            - nieuwe persoon toevoegen als maar 2 invullen, gebeurt er iets raar
-            - bij edit persoon naam wegdoen, mag niet
-            - add ticket lege velden geven errors
-            - add ticket som controleren als niet equal split
+
             - als persoon verwijdert wordt, checken wat betaalt moet woren enzo
+            - als persoon verwijdert, achtergrondkleur van addticket verandert soms
             - als persoon verwijdert, blijft deze nog staan bij de eerste keer bij ticket toevoegen
         extra:
             - kleur lijsten
+            - vaste groote voor addticket velden + jlabels
 
          */
 
