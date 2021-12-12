@@ -10,23 +10,22 @@ import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class HomeScreen extends JPanel {
     private final UUID currentUser;
 
-    private final DefaultListModel<String> defaultListModel = new DefaultListModel<>();
-    private final JList<String> list = new JList<>(defaultListModel);
+    private final DefaultListModel<String> calculateListModel = new DefaultListModel<>();
+    private final JList<String> calculatelist = new JList<>(calculateListModel);
+
+    private final DefaultListModel<String> ticketListModel = new DefaultListModel<>();
     private final JButton addTicketButton = new JButton("Add Ticket");
     private final JButton calculateButton = new JButton("Calculate");
     private final JButton viewPersonList = new JButton("PersonList");
     private final JComboBox<Scheme> dropdownMode;
     private final JLabel personLabel;
     private final JButton clearButton = new JButton("Clear");
-
-    private final JScrollPane scrollPane = new JScrollPane();
 
     public HomeScreen(UUID currentUser) {
         this.currentUser = currentUser;
@@ -36,12 +35,13 @@ public class HomeScreen extends JPanel {
         addTicketButtonButtonActionListener();
         addCalculateButtonButtonActionListener();
         addviewPersonListButtonActionListener();
-        update_screen();
+        JScrollPane scrollPane = new JScrollPane();
+        JList<String> ticketlist = new JList<>(ticketListModel);
+        scrollPane.setViewportView(ticketlist);
         this.add(scrollPane);
+        this.add(calculatelist);
         personLabel = new JLabel(PersonController.getInstance().getPerson(currentUser).getName());
         this.add(personLabel);
-        this.add(list);
-
         dropdownMode = new JComboBox<>(Scheme.values());
         dropdownMode.setVisible(true);
         this.add(dropdownMode);
@@ -49,9 +49,7 @@ public class HomeScreen extends JPanel {
         addModeActionListener();
         this.add(clearButton);
         addClearButtonListener();
-
         this.setBackground(Color.WHITE);
-
     }
 
     public void addTicketButtonButtonActionListener() {
@@ -67,15 +65,15 @@ public class HomeScreen extends JPanel {
         {
             if (TicketController.getInstance().ticketArray().length !=0) {
                 Calculate calculate = new Calculate();
-                defaultListModel.clear();
+                calculateListModel.clear();
                 HashMap<UUID, Double> person_total = calculate.person_total(currentUser);
                 for (UUID uuid : person_total.keySet()) {
                     Person person = PersonController.getInstance().getPerson(uuid);
-                    defaultListModel.addElement(person.getName() + ": " + person_total.get(uuid));
+                    calculateListModel.addElement(person.getName() + ": " + person_total.get(uuid));
                 }
             }
             else{
-                defaultListModel.clear();
+                calculateListModel.clear();
             }
         });
     }
@@ -88,21 +86,23 @@ public class HomeScreen extends JPanel {
         });
     }
 
-    public void update_screen() {
-        JList<Ticket> ticketJList = new JList<>(TicketController.getInstance().ticketArray());
-        this.scrollPane.setViewportView(ticketJList);
+    public void update_screen(boolean action, Ticket ticket) {
+        if(action)
+            ticketListModel.addElement(String.valueOf(ticket));
+        else
+            ticketListModel.removeElement(ticket);
     }
 
     public void updateMode(){
         if(ColorScheme.getInstance().getMode() == Scheme.Dark){
             personLabel.setForeground(Color.WHITE);
-            list.setForeground(Color.WHITE);
-            list.setBackground(Color.DARK_GRAY);
+            calculatelist.setForeground(Color.WHITE);
+            calculatelist.setBackground(Color.DARK_GRAY);
         }
         else{
             personLabel.setForeground(Color.BLACK);
-            list.setBackground(Color.white);
-            list.setForeground(Color.BLACK);
+            calculatelist.setBackground(Color.white);
+            calculatelist.setForeground(Color.BLACK);
 
         }
     }
@@ -123,7 +123,6 @@ public class HomeScreen extends JPanel {
             for (Ticket ticket : removeArray){
                 ticketController.removeTicket(ticket);
             }
-            update_screen();
         });
     }
 }

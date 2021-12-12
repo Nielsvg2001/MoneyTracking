@@ -7,6 +7,8 @@ import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.GUI.ViewFrame;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
+import be.uantwerpen.fti.observers.PersonDatabaseObserver;
+import be.uantwerpen.fti.observers.TicketDatabaseObserver;
 
 public class Main {
 
@@ -35,6 +37,8 @@ public class Main {
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
+
+
 
         Person niels = new Person("Niels", "niels@uantwerpen.be", "0453503949");
         Person thijs = new Person("Thijs", "thijs@uantwerpen.be", "0487529926");
@@ -69,6 +73,11 @@ public class Main {
         ticket3.addOws(niels.getId());
         ticket3.addOws(thijs.getId());
         ticket3.splitEqual();
+
+        TicketDatabaseObserver ticketDatabaseObserver = new TicketDatabaseObserver();
+        PersonDatabaseObserver personDatabaseObserver = new PersonDatabaseObserver();
+        personController.addObserver(personDatabaseObserver);
+        ticketController.addObserver(ticketDatabaseObserver);
 
         ViewFrame viewFrame = ViewFrame.getInstance();
     }

@@ -176,7 +176,7 @@ public class addTicketScreen extends JPanel {
         this.backButton.addActionListener(listener -> {
             ViewFrame viewFrame = ViewFrame.getInstance();
             viewFrame.showScreen("homeScreen");
-            viewFrame.update_homescreen();
+            // viewFrame.update_homescreen();
         });
     }
 
@@ -264,7 +264,6 @@ public class addTicketScreen extends JPanel {
                     }
                     ViewFrame viewFrame = ViewFrame.getInstance();
                     viewFrame.showScreen("homeScreen");
-                    viewFrame.update_homescreen();
                 }
             }
         });

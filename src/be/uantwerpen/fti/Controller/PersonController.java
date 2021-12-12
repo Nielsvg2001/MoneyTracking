@@ -2,6 +2,7 @@ package be.uantwerpen.fti.Controller;
 
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.observers.PersonDatabaseObserver;
 
 import java.util.UUID;
 
@@ -34,5 +35,9 @@ public class PersonController {
 
     public Person[] personArray() {
         return personDatabase.PersonArray();
+    }
+
+    public void addObserver(PersonDatabaseObserver personDatabaseObserver){
+        personDatabase.addObserver(personDatabaseObserver);
     }
 }

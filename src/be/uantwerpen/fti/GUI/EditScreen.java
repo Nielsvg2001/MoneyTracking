@@ -141,7 +141,6 @@ public class EditScreen extends JPanel {
             if(remove) {
                 PersonController.getInstance().removePerson(person);
                 ViewFrame viewFrame = ViewFrame.getInstance();
-                viewFrame.update_personscreen();
                 viewFrame.showScreen("PersonList");
 
             }
@@ -174,9 +173,6 @@ public class EditScreen extends JPanel {
                 if (textBoxToEnterPhone.getText() != null) {
                     person.setGSMNummer(textBoxToEnterPhone.getText());
                 }
-                PersonController personController = PersonController.getInstance();
-                personController.removePerson(person);
-                personController.addPerson(person);
                 ViewFrame.getInstance().update_personscreen();
                 ViewFrame viewFrame = ViewFrame.getInstance();
                 viewFrame.showScreen("PersonList");

@@ -2,6 +2,7 @@ package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
+import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,8 +48,8 @@ public class ViewFrame extends JFrame {
         this.cardLayout.show(this.panelCont, name);
     }
 
-    public void update_homescreen() {
-        homeScreen.update_screen();
+    public void update_homescreen(boolean action, Ticket ticket) {
+        homeScreen.update_screen(action, ticket);
         update_addTicketScreen();
     }
 

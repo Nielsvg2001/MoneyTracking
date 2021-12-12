@@ -105,7 +105,6 @@ public class addPersonScreen extends JPanel {
                 personController.addPerson(p);
                 ViewFrame viewFrame = ViewFrame.getInstance();
                 viewFrame.showScreen("PersonList");
-                viewFrame.update_personscreen();
             }
             else{
                 errorLabel.setText("naam mag niet leeg zijn");

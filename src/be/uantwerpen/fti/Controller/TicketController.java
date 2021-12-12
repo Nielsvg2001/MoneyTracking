@@ -2,6 +2,7 @@ package be.uantwerpen.fti.Controller;
 
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Ticket.Ticket;
+import be.uantwerpen.fti.observers.TicketDatabaseObserver;
 
 public class TicketController {
     private static TicketController single_instance = null;
@@ -29,5 +30,9 @@ public class TicketController {
 
     public Ticket[] ticketArray() {
         return ticketDatabase.ticketArray();
+    }
+
+    public void addObserver(TicketDatabaseObserver ticketDatabaseObserver){
+        ticketDatabase.addObserver(ticketDatabaseObserver);
     }
 }
