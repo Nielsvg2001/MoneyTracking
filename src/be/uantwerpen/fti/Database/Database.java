@@ -18,6 +18,5 @@ public abstract class Database {
     public void clearObservers() {
         support = new PropertyChangeSupport(this);
     }
-    // https://www.java67.com/2013/02/10-examples-of-hashmap-in-java-programming-tutorial.html
 
 }

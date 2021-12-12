@@ -10,14 +10,14 @@ import java.util.UUID;
 public class ViewFrame extends JFrame {
 
     private static ViewFrame single_instance = null;
-    public UUID currentUser = PersonController.getInstance().personArray()[0].getId();
-    public JPanel panelCont = new JPanel();
-    public HomeScreen homeScreen = new HomeScreen(currentUser);
-    public addTicketScreen addTicketScreen = new addTicketScreen();
-    public PersonList personList = new PersonList();
-    public addPersonScreen addPersonScreen = new addPersonScreen();
+    private final UUID currentUser = PersonController.getInstance().personArray()[0].getId();
+    private final JPanel panelCont = new JPanel();
+    private final HomeScreen homeScreen = new HomeScreen(currentUser);
+    private addTicketScreen addTicketScreen = new addTicketScreen();
+    private final PersonList personList = new PersonList();
+    private final addPersonScreen addPersonScreen = new addPersonScreen();
     private final EditScreen editScreen = EditScreen.getInstance();
-    CardLayout cardLayout = new CardLayout();
+    private final CardLayout cardLayout = new CardLayout();
     private final Color colorLight = Color.WHITE;
     private final Color colorDark = Color.DARK_GRAY;
 

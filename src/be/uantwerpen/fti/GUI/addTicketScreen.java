@@ -27,9 +27,7 @@ public class addTicketScreen extends JPanel {
     private final JTextField priceField;
     private final JCheckBox checkboxEqual = new JCheckBox("split equal");
     private final ArrayList<HashMap<JCheckBox, HashMap<UUID, Double>>> checklist = new ArrayList<>();
-    GridBagLayout gridBagLayout = new GridBagLayout();
-    GridBagConstraints gbc = new GridBagConstraints();
-    HashMap<UUID, JTextField> toPayList = new HashMap<>();
+    private final HashMap<UUID, JTextField> toPayList = new HashMap<>();
     private Person payer;
     private ItemListener checkboxEqualListener;
     private ItemListener checkboxPersonListener;
@@ -42,7 +40,9 @@ public class addTicketScreen extends JPanel {
 
     public addTicketScreen() { // add all button's, textfields, checkboxes, dropdown's and listeners
         setcheckboxPersonListener();
+        GridBagLayout gridBagLayout = new GridBagLayout();
         this.setLayout(gridBagLayout);
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.ipadx = 1;
         gbc.ipady = 0;
 
@@ -158,7 +158,7 @@ public class addTicketScreen extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = teller+4;
-        this.add(errorLabel,gbc);
+        this.add(errorLabel, gbc);
         errorLabel.setForeground(Color.black);
         errorLabel.setBackground(Color.PINK);
         errorLabel.setOpaque(true);
@@ -196,7 +196,7 @@ public class addTicketScreen extends JPanel {
                 errorLabel.setVisible(true);
                 error = true;
             }
-            else if (! priceField.getText().matches("[0-9]+(.|,)?[0-9]+")){
+            else if(!((priceField.getText().matches("[0-9]+(.|,)?[0-9]+")) | priceField.getText().matches("[0-9]+"))){
                 errorLabel.setText("Bedrag moet een juist bedrag zijn");
                 errorLabel.setVisible(true);
                 error = true;
@@ -221,11 +221,12 @@ public class addTicketScreen extends JPanel {
                         UUID key2 = hmjcb.get(key).keySet().iterator().next();
                         Person p = PersonController.getInstance().getPerson(key2);
                         if (!checkboxEqual.isSelected()) {
-                            if(! toPayList.get(key2).getText().matches("[0-9]+(.|,)?[0-9]+")){
+                            if(!((toPayList.get(key2).getText().matches("[0-9]+(.|,)?[0-9]+")) | toPayList.get(key2).getText().matches("[0-9]+"))){
                                 errorLabel.setText("te betalen veld moet een juist bedrag zijn");
                                 errorLabel.setVisible(true);
                                 error = true;
                                 System.out.println("error te betalen veld moet een juist bedrag zijn");
+                                System.out.println("bij: " + p.getName());
                                 break;
                             }
                             else {

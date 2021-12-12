@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PersonList extends JPanel {
-    JButton addPersonButton = new JButton("Voeg nieuwe persoon toe");
-    JButton homescreenButton = new JButton("homescreen");
-    JButton editButton = new JButton("Edit");
-    JScrollPane scrollPane = new JScrollPane();
-    JList<Person> PersonJlist;
+    private final JButton addPersonButton = new JButton("Voeg nieuwe persoon toe");
+    private final JButton homescreenButton = new JButton("homescreen");
+    private final JButton editButton = new JButton("Edit");
+    private final JScrollPane scrollPane = new JScrollPane();
+    private JList<Person> PersonJlist;
 
     public PersonList() {
         this.add(addPersonButton);

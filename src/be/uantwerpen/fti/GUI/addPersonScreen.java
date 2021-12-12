@@ -9,26 +9,26 @@ import javax.swing.*;
 import java.awt.*;
 
 public class addPersonScreen extends JPanel {
-    PersonController personController = PersonController.getInstance();
+    private final PersonController personController = PersonController.getInstance();
 
-    JButton doneButton = new JButton("Done");
-    JButton backButton = new JButton("Back");
+    private final JButton doneButton = new JButton("Done");
+    private final JButton backButton = new JButton("Back");
 
-    JTextField textBoxToEnterName = new JTextField(10);
-    JTextField textBoxToEnterEmail = new JTextField(10);
-    JTextField textBoxToEnterPhone = new JTextField(10);
-
-    GridBagLayout gridBagLayout = new GridBagLayout();
-    GridBagConstraints gbc = new GridBagConstraints();
+    private final JTextField textBoxToEnterName = new JTextField(10);
+    private final JTextField textBoxToEnterEmail = new JTextField(10);
+    private final JTextField textBoxToEnterPhone = new JTextField(10);
 
     private final JLabel personLabel = new JLabel("Nieuwe Persoon");
     private final JLabel nameLabel = new JLabel("Name:");
     private final JLabel mailLabel = new JLabel("Email:");
     private final JLabel phoneLabel =new JLabel("Phone:");
+    private final JLabel errorLabel = new JLabel("error");
 
 
     public addPersonScreen() {
+        GridBagLayout gridBagLayout = new GridBagLayout();
         this.setLayout(gridBagLayout);
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.ipadx = 1;
         gbc.ipady = 1;
 
@@ -69,6 +69,16 @@ public class addPersonScreen extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 4;
         this.add(backButton, gbc);
+
+        gbc.gridwidth = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        this.add(errorLabel, gbc);
+        errorLabel.setForeground(Color.black);
+        errorLabel.setBackground(Color.PINK);
+        errorLabel.setOpaque(true);
+        errorLabel.setVisible(false);
+
         this.setBackground(Color.WHITE);
 
         doneButtonButtonActionListener();
@@ -96,6 +106,10 @@ public class addPersonScreen extends JPanel {
                 ViewFrame viewFrame = ViewFrame.getInstance();
                 viewFrame.showScreen("PersonList");
                 viewFrame.update_personscreen();
+            }
+            else{
+                errorLabel.setText("naam mag niet leeg zijn");
+                errorLabel.setVisible(true);
             }
         });
     }

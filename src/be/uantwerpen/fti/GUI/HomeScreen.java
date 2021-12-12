@@ -15,19 +15,18 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class HomeScreen extends JPanel {
-    public UUID currentUser;
+    private final UUID currentUser;
 
-    public DefaultListModel<String> defaultListModel = new DefaultListModel<>();
-    public JList<String> list = new JList<>(defaultListModel);
-    JButton addTicketButton = new JButton("Add Ticket");
-    JButton calculateButton = new JButton("Calculate");
-    JButton viewPersonList = new JButton("PersonList");
+    private final DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+    private final JList<String> list = new JList<>(defaultListModel);
+    private final JButton addTicketButton = new JButton("Add Ticket");
+    private final JButton calculateButton = new JButton("Calculate");
+    private final JButton viewPersonList = new JButton("PersonList");
     private final JComboBox<Scheme> dropdownMode;
     private final JLabel personLabel;
     private final JButton clearButton = new JButton("Clear");
 
-    JScrollPane scrollPane = new JScrollPane();
-    JList<Ticket> ticketJList;
+    private final JScrollPane scrollPane = new JScrollPane();
 
     public HomeScreen(UUID currentUser) {
         this.currentUser = currentUser;
@@ -90,7 +89,7 @@ public class HomeScreen extends JPanel {
     }
 
     public void update_screen() {
-        ticketJList = new JList<>(TicketController.getInstance().ticketArray());
+        JList<Ticket> ticketJList = new JList<>(TicketController.getInstance().ticketArray());
         this.scrollPane.setViewportView(ticketJList);
     }
 
