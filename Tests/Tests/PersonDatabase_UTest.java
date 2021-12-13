@@ -1,5 +1,5 @@
 package Tests;
-
+/*
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
 import org.junit.Test;
@@ -41,6 +41,8 @@ public class PersonDatabase_UTest {
     public void t_addEntry() throws NoSuchFieldException, IllegalAccessException
     {
         Field field = PersonDatabase.class.getDeclaredField("db");
+        System.out.println(field.getType());
+        System.out.println(field);
         field.setAccessible(true);
 
         PersonDatabase personDatabase_underTest = PersonDatabase.getInstance();
@@ -50,9 +52,11 @@ public class PersonDatabase_UTest {
         UUID mockid = UUID.randomUUID();//Mockito.mock(UUID.class);
         Person mockPerson = Mockito.mock(Person.class);
         System.out.println(mockPerson.getId());
+        //FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("person"), mockedPerson);
+
 
         personDatabase_underTest.addEntry(mockPerson);
-        Mockito.verify(mock_db, Mockito.times(1)).put(mockid, mockPerson);
+        Mockito.verify(mock_db, Mockito.times(1)).put(mockPerson.getId(), mockPerson);
     }
 
 /*
@@ -94,4 +98,6 @@ public class PersonDatabase_UTest {
     }
 
  */
+/*
 }
+*/
