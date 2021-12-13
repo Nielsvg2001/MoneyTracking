@@ -3,7 +3,6 @@ package Tests;
 import be.uantwerpen.fti.Calculate;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Controller.TicketController;
-import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
@@ -11,15 +10,13 @@ import be.uantwerpen.fti.Ticket.TicketType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Global_ITest {
+public class GlobalITest {
 
-    public Global_ITest()
+    public GlobalITest()
     {
 
     }
