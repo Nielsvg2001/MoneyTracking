@@ -15,74 +15,77 @@ import java.util.UUID;
 public class EditScreen extends JPanel {
 
     private static EditScreen single_instance = null;
-    private Person person;
     private final JButton removeButton = new JButton("remove");
     private final JButton backButton = new JButton("Back");
     private final JButton doneButton = new JButton("done");
-
     private final JTextField textBoxToEnterName = new JTextField(15);
     private final JTextField textBoxToEnterEmail = new JTextField(15);
     private final JTextField textBoxToEnterPhone = new JTextField(15);
-
     private final JLabel personLabel = new JLabel("Persoon");
     private final JLabel nameLabel = new JLabel("Name:");
     private final JLabel mailLabel = new JLabel("Email:");
-    private final JLabel phoneLabel =new JLabel("Phone:");
+    private final JLabel phoneLabel = new JLabel("Phone:");
     private final JLabel errorLabel = new JLabel("error");
+    private Person person;
 
-
-    public static EditScreen getInstance() {
-        if (single_instance == null)
-            single_instance = new EditScreen() {
-            };
-        return single_instance;
-    }
 
     private EditScreen() {
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         this.setLayout(gridBagLayout);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.ipadx = 1; gbc.ipady = 1;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
 
-        gbc.gridwidth = 3; gbc.gridx = 1; gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         this.add(personLabel, gbc);
 
         gbc.gridwidth = 1;
 
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         this.add(nameLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
         this.add(textBoxToEnterName, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         this.add(mailLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 2;
         this.add(textBoxToEnterEmail, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         this.add(phoneLabel, gbc);
-        gbc.gridx = 2; gbc.gridy = 3;
+        gbc.gridx = 2;
+        gbc.gridy = 3;
         this.add(textBoxToEnterPhone, gbc);
 
         addremoveButtonListener();
         addbackButtonListener();
         adddoneButtonListener();
 
-        gbc.gridx = 0; gbc.gridy = 5;
-        this.add(backButton,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        this.add(backButton, gbc);
 
 
-        gbc.gridx = 1; gbc.gridy = 5;
-        this.add(removeButton,gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        this.add(removeButton, gbc);
 
-        gbc.gridx = 2; gbc.gridy = 5;
-        this.add(doneButton,gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        this.add(doneButton, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 3;
-        this.add(errorLabel,gbc);
+        this.add(errorLabel, gbc);
         errorLabel.setForeground(Color.black);
         errorLabel.setBackground(Color.PINK);
         errorLabel.setOpaque(true);
@@ -92,12 +95,19 @@ public class EditScreen extends JPanel {
 
     }
 
-    public void setPerson(Person p){
+    public static EditScreen getInstance() {
+        if (single_instance == null)
+            single_instance = new EditScreen() {
+            };
+        return single_instance;
+    }
+
+    public void setPerson(Person p) {
         this.person = p;
     }
 
-    public void updatescreen(){
-        if (person!=null) {
+    public void updatescreen() {
+        if (person != null) {
             if (person.getName() != null)
                 textBoxToEnterName.setText(person.getName());
             if (person.getGSMNummer() != null) {
@@ -110,14 +120,13 @@ public class EditScreen extends JPanel {
         errorLabel.setVisible(false);
     }
 
-    public void updateMode(){
-        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+    public void updateMode() {
+        if (ColorScheme.getInstance().getMode() == Scheme.Dark) {
             personLabel.setForeground(Color.WHITE);
             nameLabel.setForeground(Color.WHITE);
             mailLabel.setForeground(Color.WHITE);
             phoneLabel.setForeground(Color.WHITE);
-        }
-        else{
+        } else {
             personLabel.setForeground(Color.BLACK);
             nameLabel.setForeground(Color.BLACK);
             mailLabel.setForeground(Color.BLACK);
@@ -125,12 +134,12 @@ public class EditScreen extends JPanel {
         }
     }
 
-    public void addremoveButtonListener(){
+    public void addremoveButtonListener() {
         this.removeButton.addActionListener(listener ->
         {
             boolean remove = true;
             HashMap<UUID, Double> total = new Calculate().person_total(person.getId());
-            if(total!= null) {
+            if (total != null) {
                 for (UUID uuid1 : total.keySet())
                     if (total.get(uuid1) != 0) {
                         remove = false;
@@ -138,13 +147,11 @@ public class EditScreen extends JPanel {
                     }
             }
 
-            if(remove) {
+            if (remove) {
                 PersonController.getInstance().removePerson(person);
-                ViewFrame viewFrame = ViewFrame.getInstance();
-                viewFrame.showScreen("PersonList");
+                ViewFrame.getInstance().showScreen("PersonList");
 
-            }
-            else{
+            } else {
                 errorLabel.setText("kan niet removed worden, er staat nog een bedrag open");
                 errorLabel.setVisible(true);
                 System.out.println("kan niet removed worden, er staat nog een bedrag open");
@@ -152,19 +159,18 @@ public class EditScreen extends JPanel {
         });
     }
 
-    public void addbackButtonListener(){
+    public void addbackButtonListener() {
         this.backButton.addActionListener(listener ->
         {
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("PersonList");
+            ViewFrame.getInstance().showScreen("PersonList");
         });
     }
 
-    public void adddoneButtonListener(){
+    public void adddoneButtonListener() {
         this.doneButton.addActionListener(listener ->
         {
             boolean edited = false;
-            if(!Objects.equals(textBoxToEnterName.getText(), "")) {
+            if (!Objects.equals(textBoxToEnterName.getText(), "")) {
                 person.setName(textBoxToEnterName.getText());
 
                 if (textBoxToEnterEmail.getText() != null) {
@@ -173,17 +179,13 @@ public class EditScreen extends JPanel {
                 if (textBoxToEnterPhone.getText() != null) {
                     person.setGSMNummer(textBoxToEnterPhone.getText());
                 }
-                ViewFrame.getInstance().update_personscreen();
-                ViewFrame viewFrame = ViewFrame.getInstance();
-                viewFrame.showScreen("PersonList");
-            }
-            else{
+                ViewFrame.getInstance().showScreen("PersonList");
+            } else {
                 errorLabel.setText("name cannot be empty");
                 errorLabel.setVisible(true);
             }
         });
     }
-
 
 
 }

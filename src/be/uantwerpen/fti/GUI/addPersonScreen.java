@@ -21,7 +21,7 @@ public class addPersonScreen extends JPanel {
     private final JLabel personLabel = new JLabel("Nieuwe Persoon");
     private final JLabel nameLabel = new JLabel("Name:");
     private final JLabel mailLabel = new JLabel("Email:");
-    private final JLabel phoneLabel =new JLabel("Phone:");
+    private final JLabel phoneLabel = new JLabel("Phone:");
     private final JLabel errorLabel = new JLabel("error");
 
 
@@ -86,7 +86,7 @@ public class addPersonScreen extends JPanel {
 
     }
 
-    public void reset(){
+    public void reset() {
         textBoxToEnterName.setText("");
         textBoxToEnterEmail.setText("");
         textBoxToEnterPhone.setText("");
@@ -103,34 +103,28 @@ public class addPersonScreen extends JPanel {
                 if (!textBoxToEnterPhone.getText().isEmpty())
                     p.setGSMNummer(textBoxToEnterPhone.getText());
                 personController.addPerson(p);
-                ViewFrame viewFrame = ViewFrame.getInstance();
-                viewFrame.showScreen("PersonList");
-            }
-            else{
+                ViewFrame.getInstance().showScreen("PersonList");
+            } else {
                 errorLabel.setText("naam mag niet leeg zijn");
                 errorLabel.setVisible(true);
             }
         });
     }
 
-    public void backButtonButtonActionListener()
-    {
+    public void backButtonButtonActionListener() {
         this.backButton.addActionListener(listener ->
         {
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("PersonList");
-            viewFrame.update_personscreen();
+            ViewFrame.getInstance().showScreen("PersonList");
         });
     }
 
-    public void updateMode(){
-        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+    public void updateMode() {
+        if (ColorScheme.getInstance().getMode() == Scheme.Dark) {
             personLabel.setForeground(Color.WHITE);
             nameLabel.setForeground(Color.WHITE);
             mailLabel.setForeground(Color.WHITE);
             phoneLabel.setForeground(Color.WHITE);
-        }
-        else{
+        } else {
             personLabel.setForeground(Color.BLACK);
             nameLabel.setForeground(Color.BLACK);
             mailLabel.setForeground(Color.BLACK);

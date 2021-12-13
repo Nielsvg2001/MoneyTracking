@@ -32,7 +32,7 @@ public class TicketController {
         return ticketDatabase.ticketArray();
     }
 
-    public void addObserver(TicketDatabaseObserver ticketDatabaseObserver){
+    public void addObserver(TicketDatabaseObserver ticketDatabaseObserver) {
         ticketDatabase.addObserver(ticketDatabaseObserver);
     }
 }

@@ -28,14 +28,14 @@ public class addTicketScreen extends JPanel {
     private final JCheckBox checkboxEqual = new JCheckBox("split equal");
     private final ArrayList<HashMap<JCheckBox, HashMap<UUID, Double>>> checklist = new ArrayList<>();
     private final HashMap<UUID, JTextField> toPayList = new HashMap<>();
-    private Person payer;
-    private ItemListener checkboxEqualListener;
-    private ItemListener checkboxPersonListener;
     private final JLabel nameLabel = new JLabel("Naam");
     private final JLabel typeLabel = new JLabel("Type");
     private final JLabel payerLabel = new JLabel("Payer");
     private final JLabel toPayLabel = new JLabel("Bedrag");
     private final JLabel errorLabel = new JLabel("error");
+    private Person payer;
+    private ItemListener checkboxEqualListener;
+    private ItemListener checkboxPersonListener;
 
 
     public addTicketScreen() { // add all button's, textfields, checkboxes, dropdown's and listeners
@@ -157,7 +157,7 @@ public class addTicketScreen extends JPanel {
         this.add(doneButton, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = teller+4;
+        gbc.gridy = teller + 4;
         this.add(errorLabel, gbc);
         errorLabel.setForeground(Color.black);
         errorLabel.setBackground(Color.PINK);
@@ -174,9 +174,7 @@ public class addTicketScreen extends JPanel {
 
     private void addBackButtonActionListener() {
         this.backButton.addActionListener(listener -> {
-            ViewFrame viewFrame = ViewFrame.getInstance();
-            viewFrame.showScreen("homeScreen");
-            // viewFrame.update_homescreen();
+            ViewFrame.getInstance().showScreen("homeScreen");
         });
     }
 
@@ -185,23 +183,20 @@ public class addTicketScreen extends JPanel {
         this.doneButton.addActionListener(listener ->
         {
             boolean error = false;
-            double totalAmountCheck= 0;
-            if (Objects.equals(textBoxToEnterName.getText(), "")){
+            double totalAmountCheck = 0;
+            if (Objects.equals(textBoxToEnterName.getText(), "")) {
                 errorLabel.setText("Naam cannot be empty");
                 errorLabel.setVisible(true);
                 error = true;
-            }
-            else if (Objects.equals(priceField.getText(), "")){
+            } else if (Objects.equals(priceField.getText(), "")) {
                 errorLabel.setText("Bedrag mag niet leeg zijn");
                 errorLabel.setVisible(true);
                 error = true;
-            }
-            else if(!((priceField.getText().matches("[0-9]+(.|,)?[0-9]+")) | priceField.getText().matches("[0-9]+"))){
+            } else if (!((priceField.getText().matches("[0-9]+(.|,)?[0-9]+")) | priceField.getText().matches("[0-9]+"))) {
                 errorLabel.setText("Bedrag moet een juist bedrag zijn");
                 errorLabel.setVisible(true);
                 error = true;
-            }
-            else{
+            } else {
                 String name = textBoxToEnterName.getText();
                 TicketFactory ticketFactory = new TicketFactory();
                 Ticket newticket = ticketFactory.getTicket((TicketType) (Objects.requireNonNull(dropdownType.getSelectedItem())), name);
@@ -221,30 +216,28 @@ public class addTicketScreen extends JPanel {
                         UUID key2 = hmjcb.get(key).keySet().iterator().next();
                         Person p = PersonController.getInstance().getPerson(key2);
                         if (!checkboxEqual.isSelected()) {
-                            if(!((toPayList.get(key2).getText().matches("[0-9]+(.|,)?[0-9]+")) | toPayList.get(key2).getText().matches("[0-9]+"))){
+                            if (!((toPayList.get(key2).getText().matches("[0-9]+(.|,)?[0-9]+")) | toPayList.get(key2).getText().matches("[0-9]+"))) {
                                 errorLabel.setText("te betalen veld moet een juist bedrag zijn");
                                 errorLabel.setVisible(true);
                                 error = true;
                                 System.out.println("error te betalen veld moet een juist bedrag zijn");
                                 System.out.println("bij: " + p.getName());
                                 break;
-                            }
-                            else {
+                            } else {
                                 double price = Double.parseDouble(toPayList.get(key2).getText().replace(',', '.'));
                                 totalAmountCheck += price;
                                 System.out.println(totalAmountCheck);
                                 System.out.println(p + " moet " + price + " betalen");
                                 newticket.addOws(p.getId(), price);
                             }
-                        }
-                        else{
+                        } else {
                             newticket.addOws(p.getId());
                         }
                     }
                 }
 
 
-                if (totalAmountCheck != totalAmount && !checkboxEqual.isSelected() && !error){
+                if (totalAmountCheck != totalAmount && !checkboxEqual.isSelected() && !error) {
                     System.out.println(totalAmount);
                     System.out.println(totalAmountCheck);
                     errorLabel.setText("Het totaal bedrag is niet juist");
@@ -252,36 +245,34 @@ public class addTicketScreen extends JPanel {
                     error = true;
                     System.out.println("error :Het totaal bedrag komt niet overeen met de deelbedragen");
                 }
-                
+
 
                 if (!error) {
                     System.out.println("geen error");
                     newticket.setPaid_amount(totalAmount);
                     newticket.setPayerid(payer.getId());
-                    TicketController.getInstance().addTicket(newticket);
                     if (checkboxEqual.isSelected()) {
                         newticket.splitEqual();
                     }
-                    ViewFrame viewFrame = ViewFrame.getInstance();
-                    viewFrame.showScreen("homeScreen");
+                    TicketController.getInstance().addTicket(newticket);
+                    ViewFrame.getInstance().showScreen("homeScreen");
                 }
             }
         });
     }
 
-    public void updateMode(){
-        if(ColorScheme.getInstance().getMode() == Scheme.Dark){
+    public void updateMode() {
+        if (ColorScheme.getInstance().getMode() == Scheme.Dark) {
             nameLabel.setForeground(Color.WHITE);
             typeLabel.setForeground(Color.WHITE);
             payerLabel.setForeground(Color.WHITE);
             toPayLabel.setForeground(Color.WHITE);
-        }
-        else{
+        } else {
             nameLabel.setForeground(Color.BLACK);
             typeLabel.setForeground(Color.BLACK);
             payerLabel.setForeground(Color.BLACK);
             toPayLabel.setForeground(Color.BLACK);
-            }
+        }
     }
 
 

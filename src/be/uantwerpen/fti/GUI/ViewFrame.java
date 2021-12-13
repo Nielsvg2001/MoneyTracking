@@ -1,26 +1,24 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.ColorScheme;
-import be.uantwerpen.fti.Controller.PersonController;
+import be.uantwerpen.fti.Person;
 import be.uantwerpen.fti.Ticket.Ticket;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.UUID;
 
 public class ViewFrame extends JFrame {
 
     private static ViewFrame single_instance = null;
-    private final UUID currentUser = PersonController.getInstance().personArray()[0].getId();
     private final JPanel panelCont = new JPanel();
-    private final HomeScreen homeScreen = new HomeScreen(currentUser);
-    private addTicketScreen addTicketScreen = new addTicketScreen();
+    private final HomeScreen homeScreen = new HomeScreen();
     private final PersonList personList = new PersonList();
     private final addPersonScreen addPersonScreen = new addPersonScreen();
     private final EditScreen editScreen = EditScreen.getInstance();
     private final CardLayout cardLayout = new CardLayout();
     private final Color colorLight = Color.WHITE;
     private final Color colorDark = Color.DARK_GRAY;
+    private addTicketScreen addTicketScreen = new addTicketScreen();
 
     private ViewFrame() {
         panelCont.setLayout(cardLayout);
@@ -28,7 +26,7 @@ public class ViewFrame extends JFrame {
         panelCont.add(addTicketScreen, "addTicketScreen");
         panelCont.add(personList, "PersonList");
         panelCont.add(addPersonScreen, "addPersonScreen");
-        panelCont.add(editScreen,"EditScreen");
+        panelCont.add(editScreen, "EditScreen");
         cardLayout.show(panelCont, "homeScreen");
         this.add(panelCont);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,19 +51,23 @@ public class ViewFrame extends JFrame {
         update_addTicketScreen();
     }
 
-    public void update_personscreen() {
-        personList.update_screen();
+    public void calculate(){
+        homeScreen.calculate();
+    }
+
+    public void update_personscreen(boolean action, Person person) {
+        personList.update_screen(action, person);
         addPersonScreen.reset();
         update_addTicketScreen();
     }
 
-    public void update_addTicketScreen(){
+    public void update_addTicketScreen() {
         panelCont.remove(addTicketScreen);
         addTicketScreen = new addTicketScreen();
         panelCont.add(addTicketScreen, "addTicketScreen");
         addTicketScreen.updateMode();
-        switch (ColorScheme.getInstance().getMode()){
-            case Light :{
+        switch (ColorScheme.getInstance().getMode()) {
+            case Light: {
                 this.addTicketScreen.setBackground(colorLight);
                 break;
             }
@@ -80,13 +82,13 @@ public class ViewFrame extends JFrame {
         }
     }
 
-    public void update_Mode(){
+    public void update_Mode() {
         addPersonScreen.updateMode();
         addTicketScreen.updateMode();
         editScreen.updateMode();
         homeScreen.updateMode();
-        switch (ColorScheme.getInstance().getMode()){
-            case Light :{
+        switch (ColorScheme.getInstance().getMode()) {
+            case Light: {
                 this.addPersonScreen.setBackground(colorLight);
                 this.addTicketScreen.setBackground(colorLight);
                 this.editScreen.setBackground(colorLight);

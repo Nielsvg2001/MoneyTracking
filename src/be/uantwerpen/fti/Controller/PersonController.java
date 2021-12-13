@@ -37,7 +37,7 @@ public class PersonController {
         return personDatabase.PersonArray();
     }
 
-    public void addObserver(PersonDatabaseObserver personDatabaseObserver){
+    public void addObserver(PersonDatabaseObserver personDatabaseObserver) {
         personDatabase.addObserver(personDatabaseObserver);
     }
 }

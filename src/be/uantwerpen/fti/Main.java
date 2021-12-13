@@ -37,47 +37,51 @@ public class Main {
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
+        TicketDatabaseObserver ticketDatabaseObserver = new TicketDatabaseObserver();
+        PersonDatabaseObserver personDatabaseObserver = new PersonDatabaseObserver();
+        personController.addObserver(personDatabaseObserver);
+        ticketController.addObserver(ticketDatabaseObserver);
 
 
 
+        // Maak de persoon current user ineens anders kent viewframe deze niet
         Person niels = new Person("Niels", "niels@uantwerpen.be", "0453503949");
+        Login.getInstance().setCurrentUser(niels.getId());
+
+
         Person thijs = new Person("Thijs", "thijs@uantwerpen.be", "0487529926");
         Person maxim = new Person("Maxim", "maxim@uantwerpen.be", "0485930030");
+
         personController.addPerson(niels);
         personController.addPerson(thijs);
         personController.addPerson(maxim);
 
-
-
         // Ticket 1
         Ticket ticket = ticketFactory.getTicket(TicketType.Restaurant, "Da Giovanni");
-        ticketController.addTicket(ticket);
         ticket.setPayerid(niels.getId());
         ticket.setPaid_amount(100.0);
         ticket.addOws(thijs.getId(), 30.0);
         ticket.addOws(maxim.getId(), 40.0);
+        ticketController.addTicket(ticket);
 
         // Ticket 2
         Ticket ticket2 = ticketFactory.getTicket(TicketType.Taxi, "Taxi Station");
-        ticketController.addTicket(ticket2);
         ticket2.setPayerid(thijs.getId());
         ticket2.setPaid_amount(60.0);
         ticket2.addOws(niels.getId(), 20.0);
         ticket2.addOws(maxim.getId(), 25.0);
+        ticketController.addTicket(ticket2);
 
         // Ticket 3
         Ticket ticket3 = ticketFactory.getTicket(TicketType.Airplane, "Vliegtuig Kreta");
-        ticketController.addTicket(ticket3);
         ticket3.setPayerid(maxim.getId());
         ticket3.setPaid_amount(90.0);
         ticket3.addOws(niels.getId());
         ticket3.addOws(thijs.getId());
         ticket3.splitEqual();
+        ticketController.addTicket(ticket3);
 
-        TicketDatabaseObserver ticketDatabaseObserver = new TicketDatabaseObserver();
-        PersonDatabaseObserver personDatabaseObserver = new PersonDatabaseObserver();
-        personController.addObserver(personDatabaseObserver);
-        ticketController.addObserver(ticketDatabaseObserver);
+
 
         ViewFrame viewFrame = ViewFrame.getInstance();
     }

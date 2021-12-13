@@ -9,7 +9,7 @@ public class ColorScheme {
 
 
     private ColorScheme() {
-        this.Mode= Scheme.Light;
+        this.Mode = Scheme.Light;
     }
 
 

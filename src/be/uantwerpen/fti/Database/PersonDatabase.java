@@ -27,7 +27,7 @@ public class PersonDatabase extends Database {
 
     public void addEntry(Person p) {
         this.db.put(p.getId(), p);
-        support.firePropertyChange("added", p, p.getId());
+        support.firePropertyChange("added", true, p);
     }
 
     public Person getEntry(UUID id) {
@@ -36,12 +36,7 @@ public class PersonDatabase extends Database {
 
     public void removeEntry(Person p) {
         db.remove(p.getId());
-        support.firePropertyChange("remove", p, p.getId());
-    }
-
-    public void removeEntry(UUID id) {
-        db.remove(id);
-        support.firePropertyChange("remove", id, "niks");
+        support.firePropertyChange("remove", false, p);
     }
 
     public Person[] PersonArray() {
