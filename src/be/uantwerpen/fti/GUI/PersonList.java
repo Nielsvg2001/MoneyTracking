@@ -18,6 +18,8 @@ public class PersonList extends JPanel {
     public PersonList() {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setPreferredSize(new Dimension(100, 300));
+
+        personList.setSelectedIndex(0);
         scrollPane.setViewportView(personList);
 
         this.add(addPersonButton);
@@ -49,16 +51,19 @@ public class PersonList extends JPanel {
     public void editButtonActionListener() {
         this.editButton.addActionListener(listener ->
         {
-            Person p = personList.getModel().getElementAt(personList.getSelectedIndex());
-            EditScreen editScreen = EditScreen.getInstance();
-            editScreen.setPerson(p);
-            editScreen.updatescreen();
-            ViewFrame.getInstance().showScreen("EditScreen");
+            if(!personList.isSelectionEmpty()) {
+                Person p = personList.getModel().getElementAt(personList.getSelectedIndex());
+                EditScreen editScreen = EditScreen.getInstance();
+                editScreen.setPerson(p);
+                editScreen.updatescreen();
+                ViewFrame.getInstance().showScreen("EditScreen");
+            }
         });
     }
 
 
     public void update_screen(boolean action, Person person) {
+        personList.setSelectedIndex(0);
         if (action)
             personListModel.addElement(person);
         else

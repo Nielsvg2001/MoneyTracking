@@ -110,12 +110,17 @@ public class EditScreen extends JPanel {
         if (person != null) {
             if (person.getName() != null)
                 textBoxToEnterName.setText(person.getName());
-            if (person.getGSMNummer() != null) {
+            else
+                textBoxToEnterName.setText("");
+
+            if (person.getGSMNummer() != null)
                 textBoxToEnterPhone.setText(person.getGSMNummer());
-            }
-            if (person.getMail() != null) {
+            else textBoxToEnterPhone.setText("");
+            
+            if (person.getMail() != null)
                 textBoxToEnterEmail.setText(person.getMail());
-            }
+            else
+                textBoxToEnterEmail.setText("");
         }
         errorLabel.setVisible(false);
     }
@@ -180,6 +185,8 @@ public class EditScreen extends JPanel {
                     person.setGSMNummer(textBoxToEnterPhone.getText());
                 }
                 ViewFrame.getInstance().showScreen("PersonList");
+                ViewFrame.getInstance().calculate();
+                ViewFrame.getInstance().update_addTicketScreen();
             } else {
                 errorLabel.setText("name cannot be empty");
                 errorLabel.setVisible(true);

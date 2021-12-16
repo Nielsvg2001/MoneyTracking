@@ -196,6 +196,11 @@ public class addTicketScreen extends JPanel {
                 errorLabel.setText("Bedrag moet een juist bedrag zijn");
                 errorLabel.setVisible(true);
                 error = true;
+            } else if (dropdownPersons.getSelectedItem() == null) {
+                errorLabel.setText("Payer kan niet leeg zijn!");
+                errorLabel.setVisible(true);
+                error = true;
+
             } else {
                 String name = textBoxToEnterName.getText();
                 TicketFactory ticketFactory = new TicketFactory();
