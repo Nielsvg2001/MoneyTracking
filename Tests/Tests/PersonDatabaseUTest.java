@@ -54,14 +54,14 @@ public class PersonDatabaseUTest {
 
 
     @Test
-    public void t_getEntry_NoDefault() throws NoSuchFieldException, IllegalAccessException
+    public void t_getEntry_NoDefault()
     {
-        Field field = PersonDatabase.class.getDeclaredField("db");
-        field.setAccessible(true);
+        //Field field = PersonDatabase.class.getDeclaredField("db");
+        //field.setAccessible(true);
 
         PersonDatabase personDatabase_underTest = PersonDatabase.getInstance();
-        HashMap<UUID, Person> mock_db = new HashMap<>();
-        field.set(personDatabase_underTest, mock_db);
+        //HashMap<UUID, Person> mock_db = new HashMap<>();
+        //field.set(personDatabase_underTest, mock_db);
 
         UUID mockid = UUID.randomUUID();
         Person mockPerson = Mockito.mock(Person.class);
