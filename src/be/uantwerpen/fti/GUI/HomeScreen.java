@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class HomeScreen extends JPanel {
-    private final UUID currentUser = Login.getInstance().getCurrentUser();
     private final PersonController personController = PersonController.getInstance();
     private final TicketController ticketController = TicketController.getInstance();
 
@@ -23,7 +22,6 @@ public class HomeScreen extends JPanel {
     private final JButton PersonListButton = new JButton("PersonList");
 
     private final JComboBox<Scheme> dropdownMode = new JComboBox<>(Scheme.values());
-    private final JLabel currentUserLabel = new JLabel(personController.getPerson(currentUser).getName());
     private final JButton clearButton = new JButton("Clear");
 
     public HomeScreen() {
@@ -35,7 +33,6 @@ public class HomeScreen extends JPanel {
         this.add(PersonListButton);
         this.add(scrollPane);
         this.add(calculatelist);
-        this.add(currentUserLabel);
         this.add(dropdownMode);
         dropdownMode.setSelectedItem(Scheme.Light);
         addModeActionListener();
@@ -58,7 +55,8 @@ public class HomeScreen extends JPanel {
         if (ticketController.ticketArray().length != 0) {
             Calculate calculate = new Calculate();
             calculateListModel.clear();
-            HashMap<UUID, Double> person_total = calculate.person_total(currentUser);
+            calculateListModel.addElement("Current user -> "  + PersonController.getInstance().getPerson(Login.getInstance().getCurrentUser()).getName());
+            HashMap<UUID, Double> person_total = calculate.person_total(Login.getInstance().getCurrentUser());
             for (UUID uuid : person_total.keySet()) {
                 Person person = personController.getPerson(uuid);
                 calculateListModel.addElement(person.getName() + ": " + person_total.get(uuid));
@@ -85,11 +83,11 @@ public class HomeScreen extends JPanel {
 
     public void updateMode() {
         if (ColorScheme.getInstance().getMode() == Scheme.Dark) {
-            currentUserLabel.setForeground(Color.WHITE);
+            // currentUserLabel.setForeground(Color.WHITE);
             calculatelist.setForeground(Color.WHITE);
             calculatelist.setBackground(Color.DARK_GRAY);
         } else {
-            currentUserLabel.setForeground(Color.BLACK);
+            // currentUserLabel.setForeground(Color.BLACK);
             calculatelist.setBackground(Color.white);
             calculatelist.setForeground(Color.BLACK);
 

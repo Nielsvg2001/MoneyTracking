@@ -1,7 +1,9 @@
 package be.uantwerpen.fti.GUI;
 
 import be.uantwerpen.fti.Controller.PersonController;
+import be.uantwerpen.fti.Login;
 import be.uantwerpen.fti.Person;
+import be.uantwerpen.fti.Scheme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,8 @@ public class PersonList extends JPanel {
     private final DefaultListModel<Person> personListModel = new DefaultListModel<>();
     private final JList<Person> personList = new JList<>(personListModel);
 
+    private JComboBox<Person> dropdownCurrentUser = new JComboBox<>();
+    private DefaultComboBoxModel<Person> comboBoxModel = new DefaultComboBoxModel<Person>();
 
     public PersonList() {
         JScrollPane scrollPane = new JScrollPane();
@@ -24,6 +28,9 @@ public class PersonList extends JPanel {
 
         this.add(addPersonButton);
         this.add(homescreenButton);
+        this.add(new JLabel("Current user"));
+        dropdownCurrentUser.setModel(comboBoxModel);
+        this.add(dropdownCurrentUser);
         this.add(scrollPane);
         this.add(editButton);
         this.setBackground(Color.WHITE);
@@ -31,6 +38,7 @@ public class PersonList extends JPanel {
         addPersonButtonButtonActionListener();
         homescreenButtonnButtonActionListener();
         editButtonActionListener();
+        editcurruserActionListener();
     }
 
     public void addPersonButtonButtonActionListener() {
@@ -62,11 +70,27 @@ public class PersonList extends JPanel {
     }
 
 
+    public void editcurruserActionListener() {
+        this.dropdownCurrentUser.addActionListener(listener ->
+        {
+            if(!personList.isSelectionEmpty()) {
+                Person person = (Person) dropdownCurrentUser.getSelectedItem();
+                Login.getInstance().setCurrentUser(person.getId());
+                ViewFrame.getInstance().calculate();
+            }
+        });
+    }
+
+
     public void update_screen(boolean action, Person person) {
         personList.setSelectedIndex(0);
-        if (action)
+        if (action) {
+            comboBoxModel.addElement(person);
             personListModel.addElement(person);
-        else
+        }
+        else {
+            comboBoxModel.removeElement(person);
             personListModel.removeElement(person);
+        }
     }
 }
