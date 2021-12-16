@@ -20,12 +20,11 @@ public class Main {
             - andere test
             - schema's
 
-           - private zetten :
-           * viewframe
 
         Bugs:
 
         extra:
+            - kleur error bij color addTicketScreen
             - kleur lijsten
             - vaste groote voor addticket velden + jlabels
             - dropdowns groot genoeg maken zodat de naam erinpast

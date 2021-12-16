@@ -1,17 +1,18 @@
 package Tests;
-/*
+
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
+//import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-//import register_entry.RegisterEntry;
 
 import org.junit.Before;
 import org.mockito.Mockito;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class PersonDatabase_UTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public void t_addEntry() throws NoSuchFieldException, IllegalAccessException
     {
         Field field = PersonDatabase.class.getDeclaredField("db");
@@ -49,35 +50,44 @@ public class PersonDatabase_UTest {
         HashMap<UUID, Person> mock_db = (HashMap<UUID, Person>) Mockito.mock(HashMap.class);
         field.set(personDatabase_underTest, mock_db);
 
-        UUID mockid = UUID.randomUUID();//Mockito.mock(UUID.class);
+        UUID mockid = UUID.randomUUID();
         Person mockPerson = Mockito.mock(Person.class);
-        System.out.println(mockPerson.getId());
-        //FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("person"), mockedPerson);
+        Mockito.when(mockPerson.getId()).thenReturn(mockid);
 
 
         personDatabase_underTest.addEntry(mockPerson);
-        Mockito.verify(mock_db, Mockito.times(1)).put(mockPerson.getId(), mockPerson);
+        Mockito.verify(mock_db, Mockito.times(1)).put(mockid, mockPerson);
+
     }
 
-/*
+
     @Test
     public void t_getEntry_NoDefault() throws NoSuchFieldException, IllegalAccessException
     {
-        Field field = RegistrationDB.class.getDeclaredField("db");
+        Field field = PersonDatabase.class.getDeclaredField("db");
         field.setAccessible(true);
 
-        Database registrationDB_underTest = RegistrationDB.getInstance();
-        HashMap<Employee, RegisterEntry> mock_db = new HashMap<>();
-        field.set(registrationDB_underTest, mock_db);
+        PersonDatabase personDatabase_underTest = PersonDatabase.getInstance();
+       // HashMap<UUID, Person> mock_db = (HashMap<UUID, Person>) Mockito.mock(HashMap.class);
+       // field.set(personDatabase_underTest, mock_db);
 
-        Employee mockEmployee = Mockito.mock(Employee.class);
-        RegisterEntry mockRegisterEntry = Mockito.mock(RegisterEntry.class);
-        mock_db.put(mockEmployee, mockRegisterEntry);
+        UUID mockid = UUID.randomUUID();
+        Person mockPerson = Mockito.mock(Person.class);
+        Mockito.when(mockPerson.getId()).thenReturn(mockid);
 
-        RegisterEntry returnedEntry = registrationDB_underTest.getEntry(mockEmployee);
-        Assert.assertEquals("Testing getEntry - should return mockObject", mockRegisterEntry, returnedEntry);
+        personDatabase_underTest.addEntry(mockPerson);
+        System.out.println("array");
+        System.out.println(personDatabase_underTest.PersonArray());
+        for (Person p : personDatabase_underTest.PersonArray()){
+           System.out.println("personid");
+           System.out.println(p.getId());
+        }
+
+        Person returnedperson = personDatabase_underTest.getEntry(mockid);
+        System.out.println(returnedperson);
+        Assert.assertEquals("Testing getEntry - should return mockObject", mockPerson, returnedperson);
     }
-
+/*
     @Test
     public void t_getEntry_Default() throws Exception
     {
@@ -98,6 +108,6 @@ public class PersonDatabase_UTest {
     }
 
  */
-/*
+
 }
-*/
+

@@ -31,6 +31,9 @@ public class PersonDatabase extends Database {
     }
 
     public Person getEntry(UUID id) {
+        System.out.println("getentry");
+        System.out.println(id);
+        System.out.println(this.db.get(id));
         return this.db.get(id);
     }
 
