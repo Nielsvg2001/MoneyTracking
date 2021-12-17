@@ -83,11 +83,9 @@ public class HomeScreen extends JPanel {
 
     public void updateMode() {
         if (ColorScheme.getInstance().getMode() == Scheme.Dark) {
-            // currentUserLabel.setForeground(Color.WHITE);
             calculatelist.setForeground(Color.WHITE);
             calculatelist.setBackground(Color.DARK_GRAY);
         } else {
-            // currentUserLabel.setForeground(Color.BLACK);
             calculatelist.setBackground(Color.white);
             calculatelist.setForeground(Color.BLACK);
 
