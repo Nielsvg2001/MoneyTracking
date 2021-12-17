@@ -16,8 +16,8 @@ public class PersonList extends JPanel {
     private final DefaultListModel<Person> personListModel = new DefaultListModel<>();
     private final JList<Person> personList = new JList<>(personListModel);
 
-    private JComboBox<Person> dropdownCurrentUser = new JComboBox<>();
-    private DefaultComboBoxModel<Person> comboBoxModel = new DefaultComboBoxModel<Person>();
+    private final JComboBox<Person> dropdownCurrentUser = new JComboBox<>();
+    private final DefaultComboBoxModel<Person> comboBoxModel = new DefaultComboBoxModel<>();
 
     public PersonList() {
         JScrollPane scrollPane = new JScrollPane();
@@ -75,15 +75,16 @@ public class PersonList extends JPanel {
         {
             if(!personList.isSelectionEmpty()) {
                 Person person = (Person) dropdownCurrentUser.getSelectedItem();
-                Login.getInstance().setCurrentUser(person.getId());
-                ViewFrame.getInstance().calculate();
+                if (person != null) {
+                    Login.getInstance().setCurrentUser(person.getId());
+                    ViewFrame.getInstance().calculate();
+                }
             }
         });
     }
 
 
     public void update_screen(boolean action, Person person) {
-        personList.setSelectedIndex(0);
         if (action) {
             comboBoxModel.addElement(person);
             personListModel.addElement(person);
@@ -92,5 +93,8 @@ public class PersonList extends JPanel {
             comboBoxModel.removeElement(person);
             personListModel.removeElement(person);
         }
+        personList.setSelectedIndex(0);
+        if(personListModel.getSize() == 1)
+            Login.getInstance().setCurrentUser(person.getId());
     }
 }

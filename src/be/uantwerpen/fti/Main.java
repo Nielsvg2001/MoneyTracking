@@ -21,7 +21,6 @@ public class Main {
             - UnitTest
             - andere test
             - schema's
-            - zorgen dat namen aangepast worden in andere views na een edit
 
            - private zetten :
            * viewframe
