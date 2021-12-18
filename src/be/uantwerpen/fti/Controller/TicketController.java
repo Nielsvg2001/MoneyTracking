@@ -2,7 +2,7 @@ package be.uantwerpen.fti.Controller;
 
 import be.uantwerpen.fti.Database.TicketDatabase;
 import be.uantwerpen.fti.Ticket.Ticket;
-import be.uantwerpen.fti.observers.TicketDatabaseObserver;
+import be.uantwerpen.fti.Observers.TicketDatabaseObserver;
 
 public class TicketController {
     private static TicketController single_instance = null;

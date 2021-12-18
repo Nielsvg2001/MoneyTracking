@@ -1,6 +1,6 @@
 package be.uantwerpen.fti.Database;
 
-import be.uantwerpen.fti.observers.Observer;
+import be.uantwerpen.fti.Observers.Observer;
 
 import java.beans.PropertyChangeSupport;
 

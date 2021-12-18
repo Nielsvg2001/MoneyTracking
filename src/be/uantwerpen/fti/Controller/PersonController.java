@@ -2,7 +2,7 @@ package be.uantwerpen.fti.Controller;
 
 import be.uantwerpen.fti.Database.PersonDatabase;
 import be.uantwerpen.fti.Person;
-import be.uantwerpen.fti.observers.PersonDatabaseObserver;
+import be.uantwerpen.fti.Observers.PersonDatabaseObserver;
 
 import java.util.UUID;
 

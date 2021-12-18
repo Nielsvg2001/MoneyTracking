@@ -1,4 +1,4 @@
-package be.uantwerpen.fti.observers;
+package be.uantwerpen.fti.Observers;
 
 import be.uantwerpen.fti.GUI.ViewFrame;
 import be.uantwerpen.fti.Person;

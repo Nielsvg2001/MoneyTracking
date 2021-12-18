@@ -7,8 +7,8 @@ import be.uantwerpen.fti.Factory.TicketFactory;
 import be.uantwerpen.fti.GUI.ViewFrame;
 import be.uantwerpen.fti.Ticket.Ticket;
 import be.uantwerpen.fti.Ticket.TicketType;
-import be.uantwerpen.fti.observers.PersonDatabaseObserver;
-import be.uantwerpen.fti.observers.TicketDatabaseObserver;
+import be.uantwerpen.fti.Observers.PersonDatabaseObserver;
+import be.uantwerpen.fti.Observers.TicketDatabaseObserver;
 
 public class Main {
 

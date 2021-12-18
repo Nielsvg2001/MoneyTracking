@@ -1,4 +1,4 @@
-package be.uantwerpen.fti.observers;
+package be.uantwerpen.fti.Observers;
 
 import java.beans.PropertyChangeListener;
 
