@@ -16,27 +16,24 @@ import java.util.UUID;
 
 public class GlobalITest {
 
-    public GlobalITest()
-    {
+    public GlobalITest() {
 
     }
 
     @Before
-    public void initialize()
-    {
+    public void initialize() {
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
-        for(Ticket t: ticketController.ticketArray()){
+        for (Ticket t : ticketController.ticketArray()) {
             ticketController.removeTicket(t);
         }
-        for(Person p: personController.personArray()){
+        for (Person p : personController.personArray()) {
             personController.removePerson(p);
         }
     }
 
     @Test
-    public void simple_splitnotequal()
-    {
+    public void simple_splitnotequal() {
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
@@ -47,7 +44,6 @@ public class GlobalITest {
         personController.addPerson(niels);
         personController.addPerson(thijs);
         personController.addPerson(maxime);
-
 
 
         // Ticket 1
@@ -63,19 +59,19 @@ public class GlobalITest {
         // N: 70
         Calculate calculate = new Calculate();
         HashMap<UUID, HashMap<UUID, Double>> total = calculate.calculate_total();
-        for(UUID person: total.keySet()){
+        for (UUID person : total.keySet()) {
             HashMap<UUID, Double> ows = total.get(person);
             double totaltoget = 0;
-            for(UUID person2: ows.keySet()) {
+            for (UUID person2 : ows.keySet()) {
                 double toget = ows.get(person2);
-                totaltoget = totaltoget+toget;
+                totaltoget = totaltoget + toget;
             }
             if (person == thijs.getId()) {
-                Assert.assertEquals("to pay Thijs klopt niet",-30, totaltoget, 10^-5);
+                Assert.assertEquals("to pay Thijs klopt niet", -30, totaltoget, 10 ^ -5);
             } else if (person == niels.getId()) {
-                Assert.assertEquals("to pay Niels klopt niet", 70, totaltoget,10^-5);
+                Assert.assertEquals("to pay Niels klopt niet", 70, totaltoget, 10 ^ -5);
             } else if (person == maxime.getId()) {
-                Assert.assertEquals("to pay Maxime klopt niet", -40, totaltoget,10^-5);
+                Assert.assertEquals("to pay Maxime klopt niet", -40, totaltoget, 10 ^ -5);
             }
         }
 
@@ -93,27 +89,26 @@ public class GlobalITest {
 
         calculate = new Calculate();
         total = calculate.calculate_total();
-        for(UUID person: total.keySet()){
+        for (UUID person : total.keySet()) {
             HashMap<UUID, Double> ows = total.get(person);
             double totaltoget = 0;
-            for(UUID person2: ows.keySet()) {
+            for (UUID person2 : ows.keySet()) {
                 double toget = ows.get(person2);
-                totaltoget = totaltoget+toget;
+                totaltoget = totaltoget + toget;
             }
             if (person == thijs.getId()) {
-                Assert.assertEquals("to pay Thijs klopt niet2",15, totaltoget, 10^-5);
+                Assert.assertEquals("to pay Thijs klopt niet2", 15, totaltoget, 10 ^ -5);
             } else if (person == niels.getId()) {
-                Assert.assertEquals("to pay Niels klopt niet2",50, totaltoget, 10^-5);
+                Assert.assertEquals("to pay Niels klopt niet2", 50, totaltoget, 10 ^ -5);
             } else if (person == maxime.getId()) {
-                Assert.assertEquals("to pay Maxime klopt niet2",-65, totaltoget, 10^-5);
+                Assert.assertEquals("to pay Maxime klopt niet2", -65, totaltoget, 10 ^ -5);
             }
         }
     }
 
 
     @Test
-    public void simple_splitequal()
-    {
+    public void simple_splitequal() {
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
@@ -137,26 +132,25 @@ public class GlobalITest {
 
         Calculate calculate = new Calculate();
         HashMap<UUID, HashMap<UUID, Double>> total = calculate.calculate_total();
-        for(UUID person: total.keySet()){
+        for (UUID person : total.keySet()) {
             HashMap<UUID, Double> ows = total.get(person);
             double totaltoget = 0;
-            for(UUID person2: ows.keySet()) {
+            for (UUID person2 : ows.keySet()) {
                 double toget = ows.get(person2);
-                totaltoget = totaltoget+toget;
+                totaltoget = totaltoget + toget;
             }
             if (person == thijs.getId()) {
-                Assert.assertEquals("to pay Thijs klopt niet3",  -45.0, totaltoget,10^-5);
+                Assert.assertEquals("to pay Thijs klopt niet3", -45.0, totaltoget, 10 ^ -5);
             } else if (person == niels.getId()) {
-                Assert.assertEquals("to pay Niels klopt niet3", -45.0, totaltoget,10^-5);
+                Assert.assertEquals("to pay Niels klopt niet3", -45.0, totaltoget, 10 ^ -5);
             } else if (person == maxime.getId()) {
-                Assert.assertEquals("to pay Maxime klopt niet3", 90, totaltoget,10^-5);
+                Assert.assertEquals("to pay Maxime klopt niet3", 90, totaltoget, 10 ^ -5);
             }
         }
     }
 
     @Test
-    public void simple_splitequalAll()
-    {
+    public void simple_splitequalAll() {
         TicketFactory ticketFactory = new TicketFactory();
         TicketController ticketController = TicketController.getInstance();
         PersonController personController = PersonController.getInstance();
@@ -181,19 +175,19 @@ public class GlobalITest {
 
         Calculate calculate = new Calculate();
         HashMap<UUID, HashMap<UUID, Double>> total = calculate.calculate_total();
-        for(UUID person: total.keySet()){
+        for (UUID person : total.keySet()) {
             HashMap<UUID, Double> ows = total.get(person);
             double totaltoget = 0;
-            for(UUID person2: ows.keySet()) {
+            for (UUID person2 : ows.keySet()) {
                 double toget = ows.get(person2);
-                totaltoget = totaltoget+toget;
+                totaltoget = totaltoget + toget;
             }
             if (person == thijs.getId()) {
-                Assert.assertEquals("to pay Thijs klopt niet",  -30.0, totaltoget,10^-5);
+                Assert.assertEquals("to pay Thijs klopt niet", -30.0, totaltoget, 10 ^ -5);
             } else if (person == niels.getId()) {
-                Assert.assertEquals("to pay Niels klopt niet", -30.0, totaltoget,10^-5);
+                Assert.assertEquals("to pay Niels klopt niet", -30.0, totaltoget, 10 ^ -5);
             } else if (person == maxime.getId()) {
-                Assert.assertEquals("to pay Maxime klopt niet", 60, totaltoget,10^-5);
+                Assert.assertEquals("to pay Maxime klopt niet", 60, totaltoget, 10 ^ -5);
             }
         }
     }
