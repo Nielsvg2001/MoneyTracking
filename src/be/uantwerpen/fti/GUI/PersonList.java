@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.GUI;
 
+import be.uantwerpen.fti.ColorScheme;
 import be.uantwerpen.fti.Controller.PersonController;
 import be.uantwerpen.fti.Login;
 import be.uantwerpen.fti.Person;
@@ -18,6 +19,7 @@ public class PersonList extends JPanel {
 
     private final JComboBox<Person> dropdownCurrentUser = new JComboBox<>();
     private final DefaultComboBoxModel<Person> comboBoxModel = new DefaultComboBoxModel<>();
+    private final JLabel currentUserLabel = new JLabel("Current user");
 
     public PersonList() {
         JScrollPane scrollPane = new JScrollPane();
@@ -28,7 +30,7 @@ public class PersonList extends JPanel {
 
         this.add(addPersonButton);
         this.add(homescreenButton);
-        this.add(new JLabel("Current user"));
+        this.add(currentUserLabel);
         dropdownCurrentUser.setModel(comboBoxModel);
         this.add(dropdownCurrentUser);
         this.add(scrollPane);
@@ -51,9 +53,7 @@ public class PersonList extends JPanel {
 
     public void homescreenButtonnButtonActionListener() {
         this.homescreenButton.addActionListener(listener ->
-        {
-            ViewFrame.getInstance().showScreen("homeScreen");
-        });
+                ViewFrame.getInstance().showScreen("homeScreen"));
     }
 
     public void editButtonActionListener() {
@@ -96,5 +96,22 @@ public class PersonList extends JPanel {
         personList.setSelectedIndex(0);
         if(personListModel.getSize() == 1)
             Login.getInstance().setCurrentUser(person.getId());
+    }
+
+    public void updateMode(){
+        switch (ColorScheme.getInstance().getMode()) {
+            case Light: {
+                currentUserLabel.setForeground(Color.BLACK);
+                break;
+            }
+            case Color: {
+                currentUserLabel.setForeground(Color.BLACK);
+                break;
+            }
+            case Dark: {
+                currentUserLabel.setForeground(Color.WHITE);
+                break;
+            }
+        }
     }
 }

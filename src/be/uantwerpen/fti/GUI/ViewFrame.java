@@ -87,6 +87,7 @@ public class ViewFrame extends JFrame {
         addTicketScreen.updateMode();
         editScreen.updateMode();
         homeScreen.updateMode();
+        personList.updateMode();
         switch (ColorScheme.getInstance().getMode()) {
             case Light: {
                 this.addPersonScreen.setBackground(colorLight);
