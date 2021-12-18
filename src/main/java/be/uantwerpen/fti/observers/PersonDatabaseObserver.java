@@ -8,6 +8,6 @@ public class PersonDatabaseObserver implements Observer {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println(evt.getPropertyName() + " " + evt.getOldValue());
+        System.out.println(evt.getNewValue() + " " + evt.getOldValue());
     }
 }
