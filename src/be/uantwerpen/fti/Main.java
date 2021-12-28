@@ -13,7 +13,7 @@ import be.uantwerpen.fti.Observers.TicketDatabaseObserver;
 public class Main {
 
     public static void main(String[] args) {
-        boolean demo = true;
+        boolean demo = false;
 
         // Init
         TicketFactory ticketFactory = new TicketFactory();

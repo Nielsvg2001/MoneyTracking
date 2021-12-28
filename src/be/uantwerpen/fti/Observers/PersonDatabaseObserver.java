@@ -13,6 +13,6 @@ public class PersonDatabaseObserver implements Observer {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         ViewFrame.getInstance().update_personscreen((Boolean) evt.getOldValue(), (Person) evt.getNewValue());
-        System.out.println(evt.getPropertyName() + " " + evt.getOldValue());
+        System.out.println(evt.getPropertyName() + ": " + evt.getNewValue());
     }
 }

@@ -159,7 +159,6 @@ public class EditScreen extends JPanel {
             } else {
                 errorLabel.setText("kan niet removed worden, er staat nog een bedrag open");
                 errorLabel.setVisible(true);
-                System.out.println("kan niet removed worden, er staat nog een bedrag open");
             }
         });
     }

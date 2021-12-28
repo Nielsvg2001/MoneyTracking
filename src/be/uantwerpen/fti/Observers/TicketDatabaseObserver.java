@@ -14,6 +14,6 @@ public class TicketDatabaseObserver implements Observer {
     public void propertyChange(PropertyChangeEvent evt) {
         ViewFrame.getInstance().update_homescreen((Boolean) evt.getOldValue(), (Ticket) evt.getNewValue());
         ViewFrame.getInstance().calculate();
-        System.out.println(evt.getPropertyName() + " -> " + evt.getNewValue());
+        System.out.println(evt.getPropertyName() + " : " + evt.getNewValue());
     }
 }

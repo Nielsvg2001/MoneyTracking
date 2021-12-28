@@ -225,14 +225,10 @@ public class addTicketScreen extends JPanel {
                                 errorLabel.setText("te betalen veld moet een juist bedrag zijn");
                                 errorLabel.setVisible(true);
                                 error = true;
-                                System.out.println("error te betalen veld moet een juist bedrag zijn");
-                                System.out.println("bij: " + p.getName());
                                 break;
                             } else {
                                 double price = Double.parseDouble(toPayList.get(key2).getText().replace(',', '.'));
                                 totalAmountCheck += price;
-                                System.out.println(totalAmountCheck);
-                                System.out.println(p + " moet " + price + " betalen");
                                 newticket.addOws(p.getId(), price);
                             }
                         } else {
@@ -243,17 +239,13 @@ public class addTicketScreen extends JPanel {
 
 
                 if (totalAmountCheck != totalAmount && !checkboxEqual.isSelected() && !error) {
-                    System.out.println(totalAmount);
-                    System.out.println(totalAmountCheck);
                     errorLabel.setText("Het totaal bedrag is niet juist");
                     errorLabel.setVisible(true);
                     error = true;
-                    System.out.println("error :Het totaal bedrag komt niet overeen met de deelbedragen");
                 }
 
 
                 if (!error) {
-                    System.out.println("geen error");
                     newticket.setPaid_amount(totalAmount);
                     newticket.setPayerid(payer.getId());
                     if (checkboxEqual.isSelected()) {

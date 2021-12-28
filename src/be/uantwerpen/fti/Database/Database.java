@@ -12,7 +12,6 @@ public abstract class Database {
 
     public void addObserver(Observer o) {
         support.addPropertyChangeListener(o);
-        System.out.println("added observer");
     }
 
     public void clearObservers() {
